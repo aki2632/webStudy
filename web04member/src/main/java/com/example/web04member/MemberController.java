@@ -115,14 +115,16 @@ public class MemberController extends HttpServlet {
             System.out.println(name);
             System.out.println(tel);
 
+
             int result = 1;
-            if (result == 1) {
+            if(result ==1 ){
                 System.out.println("insert successed...");
-                response.sendRedirect("m_selectAll.do");    // 서블릿 패스
-            } else {
+                response.sendRedirect("m_selectAll.do");//서블릿패스
+            }else{
                 System.out.println("insert failed...");
-                response.sendRedirect("m_insert.do");   // 서블릿 패스
+                response.sendRedirect("m_insert.do");//서블릿패스
             }
+
         }else if(sPath.equals("/m_updateOK.do")){
             String num = request.getParameter("num");
             String id = request.getParameter("id");
@@ -134,9 +136,29 @@ public class MemberController extends HttpServlet {
             System.out.println(pw);
             System.out.println(name);
             System.out.println(tel);
+
+
+            int result = 1;
+            if(result ==1 ){
+                System.out.println("update successed...");
+                response.sendRedirect("m_selectOne.do?num="+num);//서블릿패스
+            }else{
+                System.out.println("update failed...");
+                response.sendRedirect("m_update.do?num="+num);//서블릿패스
+            }
+
         }else if(sPath.equals("/m_deleteOK.do")){
             String num = request.getParameter("num");
             System.out.println(num);
+
+            int result = 1;
+            if(result ==1 ){
+                System.out.println("delete successed...");
+                response.sendRedirect("m_selectAll.do");//서블릿패스
+            }else{
+                System.out.println("delete failed...");
+                response.sendRedirect("m_delete.do?num="+num);//서블릿패스
+            }
         }
 
 

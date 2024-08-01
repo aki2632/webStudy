@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.web04member.MemberVO" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,20 +30,15 @@
   </tr>
   </thead>
   <tbody>
-  <%  //스크립스릿 태그- 자바코딩영역
-    List<MemberVO> list = (List<MemberVO>) request.getAttribute("list");
-    for (int i = 0; i < list.size(); i++) {
-  %>
-  <tr>
-    <td><a href="m_selectOne.do?num=<%= list.get(i).getNum()%>"><%= list.get(i).getNum()%></a></td>
-    <td><a href="m_selectOne.do?num=<%= list.get(i).getNum()%>"><%= list.get(i).getId()%></a></td>
-    <td><%= list.get(i).getPw()%></td>
-    <td><%= list.get(i).getName()%></td>
-    <td><%= list.get(i).getTel()%></td>
-  </tr>
-  <%
-    }
-  %>
+  <c:forEach var="vo" items="${list}">
+    <tr>
+      <td><a href="m_selectOne.do?num=${vo.num}">${vo.num}</a></td>
+      <td><a href="m_selectOne.do?num=${vo.num}">${vo.id}</a></td>
+      <td>${vo.pw}</td>
+      <td>${vo.name}</td>
+      <td>${vo.tel}</td>
+    </tr>
+  </c:forEach>
 
   </tbody>
   <tfoot>

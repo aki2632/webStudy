@@ -16,6 +16,8 @@ import java.util.List;
 "/m_insertOK.do","/m_updateOK.do","/m_deleteOK.do"})
 public class MemberController extends HttpServlet {
 
+    MemberDAO dao = new MemberDAOimpl();
+
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response)
             throws IOException, ServletException {
@@ -33,12 +35,10 @@ public class MemberController extends HttpServlet {
             String num = request.getParameter("num");
             System.out.println(num);
 
-            MemberVO vo2 = new MemberVO();
-            vo2.setNum(Integer.parseInt(num));
-            vo2.setId("admin11");
-            vo2.setPw("hi1111");
-            vo2.setName("kim11");
-            vo2.setTel("011");
+            MemberVO vo = new MemberVO();
+            vo.setNum(Integer.parseInt(num));
+
+            MemberVO vo2 = dao.selectOne(vo);
 
             request.setAttribute("vo2",vo2);
 
@@ -52,12 +52,10 @@ public class MemberController extends HttpServlet {
             String num = request.getParameter("num");
             System.out.println(num);
 
-            MemberVO vo2 = new MemberVO();
-            vo2.setNum(Integer.parseInt(num));
-            vo2.setId("admin11");
-            vo2.setPw("hi1111");
-            vo2.setName("kim11");
-            vo2.setTel("011");
+            MemberVO vo = new MemberVO();
+            vo.setNum(Integer.parseInt(num));
+
+            MemberVO vo2 = dao.selectOne(vo);
 
             request.setAttribute("vo2",vo2);
 
@@ -66,16 +64,7 @@ public class MemberController extends HttpServlet {
         }else if(sPath.equals("/m_selectAll.do")){
 
 
-            List<MemberVO> list = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                MemberVO vo2 = new MemberVO();
-                vo2.setNum(10+i);
-                vo2.setId("admin11"+i);
-                vo2.setPw("hi1111"+i);
-                vo2.setName("kim11"+i);
-                vo2.setTel("011"+i);
-                list.add(vo2);
-            }
+            List<MemberVO> list = dao.selectAll();
 
             request.setAttribute("list",list);
 
@@ -89,16 +78,7 @@ public class MemberController extends HttpServlet {
             System.out.println(searchKey);
             System.out.println(searchWord);
 
-            List<MemberVO> list = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                MemberVO vo2 = new MemberVO();
-                vo2.setNum(10+i);
-                vo2.setId("admin11"+i);
-                vo2.setPw("hi1111"+i);
-                vo2.setName("kim11"+i);
-                vo2.setTel("011"+i);
-                list.add(vo2);
-            }
+            List<MemberVO> list = dao.searchList(searchKey,searchWord);
 
             request.setAttribute("list",list);
 
@@ -115,8 +95,13 @@ public class MemberController extends HttpServlet {
             System.out.println(name);
             System.out.println(tel);
 
+            MemberVO vo = new MemberVO();
+            vo.setId(id);
+            vo.setPw(pw);
+            vo.setName(name);
+            vo.setTel(tel);
 
-            int result = 1;
+            int result = dao.insert(vo);
             if(result ==1 ){
                 System.out.println("insert successed...");
                 response.sendRedirect("m_selectAll.do");//서블릿패스
@@ -138,7 +123,14 @@ public class MemberController extends HttpServlet {
             System.out.println(tel);
 
 
-            int result = 1;
+            MemberVO vo = new MemberVO();
+            vo.setNum(Integer.parseInt(num));
+            vo.setId(id);
+            vo.setPw(pw);
+            vo.setName(name);
+            vo.setTel(tel);
+
+            int result = dao.update(vo);
             if(result ==1 ){
                 System.out.println("update successed...");
                 response.sendRedirect("m_selectOne.do?num="+num);//서블릿패스
@@ -151,7 +143,10 @@ public class MemberController extends HttpServlet {
             String num = request.getParameter("num");
             System.out.println(num);
 
-            int result = 1;
+            MemberVO vo = new MemberVO();
+            vo.setNum(Integer.parseInt(num));
+
+            int result = dao.delete(vo);
             if(result ==1 ){
                 System.out.println("delete successed...");
                 response.sendRedirect("m_selectAll.do");//서블릿패스

@@ -95,13 +95,44 @@ public class BoardController extends HttpServlet {
             System.out.println(request.getParameter("title"));
             System.out.println(request.getParameter("content"));
             System.out.println(request.getParameter("writer"));
+
+            int result = 1;
+            if (result == 1) {
+                System.out.println("insert successed...");
+                response.sendRedirect("b_selectAll.do");    // 서블릿 패스
+            } else {
+                System.out.println("insert failed...");
+                response.sendRedirect("b_insert.do");   // 서블릿 패스
+            }
+
         }else if(sPath.equals("/b_updateOK.do")){
+            String num;
+
+            System.out.println(num);
             System.out.println(request.getParameter("num"));
             System.out.println(request.getParameter("title"));
             System.out.println(request.getParameter("content"));
             System.out.println(request.getParameter("writer"));
+
+            int result = 1;
+            if (result == 1) {
+                System.out.println("update successed...");
+                response.sendRedirect("b_selectAll.do?num="+num);    // 서블릿 패스
+            } else {
+                System.out.println("update failed...");
+                response.sendRedirect("b_upadte.do?num="+num);   // 서블릿 패스
+            }
         }else if(sPath.equals("/b_deleteOK.do")){
             System.out.println(request.getParameter("num"));
+
+            int result = 1;
+            if (result == 1) {
+                System.out.println("delete successed...");
+                response.sendRedirect("b_selectAll.do");    // 서블릿 패스
+            } else {
+                System.out.println("delete failed...");
+                response.sendRedirect("b_delete.do");   // 서블릿 패스
+            }
         }
 
 

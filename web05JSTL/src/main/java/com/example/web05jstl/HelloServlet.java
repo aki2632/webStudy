@@ -1,12 +1,11 @@
-package org.example.web04member;
+package com.example.web05jstl;
 
 import java.io.*;
-
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 @WebServlet(name = "helloServlet", value = "/hello-servlet")
-public class HomeController extends HttpServlet {
+public class HelloServlet extends HttpServlet {
     private String message;
 
     public void init() {

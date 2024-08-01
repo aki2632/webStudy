@@ -1,6 +1,5 @@
-<%@ page import="com.example.web03board.BoardVO" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,19 +27,14 @@
     </tr>
   </thead>
   <tbody>
-  <%  //스크립스릿 태그- 자바코딩영역
-    List<BoardVO> list = (List<BoardVO>) request.getAttribute("list");
-    for (int i = 0; i < list.size(); i++) {
-  %>
+   <c:forEach var="vo" items="${list}">
     <tr>
-      <td><a href="b_selectOne.do?num=<%= list.get(i).getNum()%>"><%= list.get(i).getNum()%></a></td>
-      <td><a href="b_selectOne.do?num=<%= list.get(i).getNum()%>"><%= list.get(i).getTitle()%></a></td>
-      <td><%= list.get(i).getWriter()%></td>
-      <td><%= list.get(i).getWdate()%></td>
+      <td><a href="b_selectOne.do?num=${vo.num}">${vo.num}</a></td>
+      <td><a href="b_selectOne.do?num=${vo.num}">${vo.title}</a></td>
+      <td>${vo.writer}</td>
+      <td>${vo.wdate}</td>
     </tr>
-  <%
-    }
-  %>
+  </c:forEach>
 
   </tbody>
   <tfoot>

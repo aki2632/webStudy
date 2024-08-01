@@ -31,7 +31,18 @@ public class BoardController extends HttpServlet {
             rd.forward(request,response);
         }else if(sPath.equals("/b_update.do")){
 
+            System.out.println(request.getParameter("num"));
 
+            int num = Integer.parseInt(request.getParameter("num"));
+
+            BoardVO vo2 = new BoardVO();
+            vo2.setNum(num);
+            vo2.setTitle("jsp...");
+            vo2.setContent("servlet....");
+            vo2.setWriter("admin1");
+            vo2.setWdate(new Timestamp(System.currentTimeMillis()));
+
+            request.setAttribute("vo2",vo2);
 
             RequestDispatcher rd = request.getRequestDispatcher("board/update.jsp");
             rd.forward(request,response);

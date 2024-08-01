@@ -8,9 +8,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet({"/m_insert.do","/m_update.do","/m_delete.do",
-        "/m_selectOne.do","/m_selectAll.do","/m_searchList.do"})
+        "/m_selectOne.do","/m_selectAll.do","/m_searchList.do",
+"/m_insertOK.do","/m_updateOK.do","/m_deleteOK.do"})
 public class MemberController extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
@@ -26,20 +29,105 @@ public class MemberController extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("member/insert.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/m_update.do")){
+
+            String num = request.getParameter("num");
+            System.out.println(num);
+
+            MemberVO vo2 = new MemberVO();
+            vo2.setNum(Integer.parseInt(num));
+            vo2.setId("admin11");
+            vo2.setPw("hi1111");
+            vo2.setName("kim11");
+            vo2.setTel("011");
+
+            request.setAttribute("vo2",vo2);
+
             RequestDispatcher rd = request.getRequestDispatcher("member/update.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/m_delete.do")){
             RequestDispatcher rd = request.getRequestDispatcher("member/delete.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/m_selectOne.do")){
+
+            String num = request.getParameter("num");
+            System.out.println(num);
+
+            MemberVO vo2 = new MemberVO();
+            vo2.setNum(Integer.parseInt(num));
+            vo2.setId("admin11");
+            vo2.setPw("hi1111");
+            vo2.setName("kim11");
+            vo2.setTel("011");
+
+            request.setAttribute("vo2",vo2);
+
             RequestDispatcher rd = request.getRequestDispatcher("member/selectOne.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/m_selectAll.do")){
+
+
+            List<MemberVO> list = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                MemberVO vo2 = new MemberVO();
+                vo2.setNum(10+i);
+                vo2.setId("admin11"+i);
+                vo2.setPw("hi1111"+i);
+                vo2.setName("kim11"+i);
+                vo2.setTel("011"+i);
+                list.add(vo2);
+            }
+
+            request.setAttribute("list",list);
+
+
             RequestDispatcher rd = request.getRequestDispatcher("member/selectAll.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/m_searchList.do")){
-            RequestDispatcher rd = request.getRequestDispatcher("member/searchList.jsp");
+
+            String searchKey = request.getParameter("searchKey");
+            String searchWord = request.getParameter("searchWord");
+            System.out.println(searchKey);
+            System.out.println(searchWord);
+
+            List<MemberVO> list = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                MemberVO vo2 = new MemberVO();
+                vo2.setNum(10+i);
+                vo2.setId("admin11"+i);
+                vo2.setPw("hi1111"+i);
+                vo2.setName("kim11"+i);
+                vo2.setTel("011"+i);
+                list.add(vo2);
+            }
+
+            request.setAttribute("list",list);
+
+
+            RequestDispatcher rd = request.getRequestDispatcher("member/selectAll.jsp");
             rd.forward(request,response);
+        }else if(sPath.equals("/m_insertOK.do")){
+            String id = request.getParameter("id");
+            String pw = request.getParameter("pw");
+            String name = request.getParameter("name");
+            String tel = request.getParameter("tel");
+            System.out.println(id);
+            System.out.println(pw);
+            System.out.println(name);
+            System.out.println(tel);
+        }else if(sPath.equals("/m_updateOK.do")){
+            String num = request.getParameter("num");
+            String id = request.getParameter("id");
+            String pw = request.getParameter("pw");
+            String name = request.getParameter("name");
+            String tel = request.getParameter("tel");
+            System.out.println(num);
+            System.out.println(id);
+            System.out.println(pw);
+            System.out.println(name);
+            System.out.println(tel);
+        }else if(sPath.equals("/m_deleteOK.do")){
+            String num = request.getParameter("num");
+            System.out.println(num);
         }
 
 

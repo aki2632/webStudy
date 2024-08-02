@@ -1,4 +1,4 @@
-package com.example.web07total.model.board;
+package com.example.web07total.board.model;
 
 import java.sql.Timestamp;
 

@@ -1,4 +1,4 @@
-package com.example.web07total.model.member;
+package com.example.web07total.member.model;
 
 public class MemberVO {
     private int num;

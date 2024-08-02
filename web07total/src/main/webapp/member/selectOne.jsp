@@ -7,7 +7,7 @@
 <body>
 <h1>회원 정보 페이지</h1>
 <br/>
-<jsp:include page="../../top_menu.jsp"/>
+<jsp:include page="../top_menu.jsp"/>
 <table border="1">
   <thead>
   <tr>

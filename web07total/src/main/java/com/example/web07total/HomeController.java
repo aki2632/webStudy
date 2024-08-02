@@ -1,4 +1,4 @@
-package com.example.web07total.controller;
+package com.example.web07total;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -14,6 +14,14 @@ public class HomeController extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
+       /* response.setContentType("text/html");
+
+        // Hello
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        out.println("<h1>" + message + "</h1>");
+        out.println("</body></html>");*/
+
         String sPath = request.getServletPath();
 
         System.out.println("sPath:"+sPath);

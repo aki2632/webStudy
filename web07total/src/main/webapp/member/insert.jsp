@@ -63,7 +63,7 @@
 </head>
 
 <body>
-<jsp:include page="../../top_menu.jsp"/>
+<jsp:include page="../top_menu.jsp"/>
 <div>
   <h1>회원가입 페이지</h1>
   <form action="m_insertOK.do" method="post">
@@ -74,7 +74,7 @@
       </tr>
       <tr>
         <td><label for="pw">PW</label></td>
-        <td><input type="text" id="pw" name="pw" value="hillll" placeholder="PW를 입력하세요"></td>
+        <td><input type="text" id="pw" name="pw" value="hi1111" placeholder="PW를 입력하세요"></td>
       </tr>
       <tr>
       <tr>

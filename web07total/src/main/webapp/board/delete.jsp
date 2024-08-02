@@ -7,12 +7,12 @@
 <body>
 <h1><%= "게시글 삭제 페이지" %></h1>
 <br/>
-<jsp:include page="../../top_menu.jsp"/>
-<form action="m_deleteOK.do" method="post">
+<jsp:include page="../top_menu.jsp"/>
+<form action="b_deleteOK.do" method="post">
   <table border="1">
     <tbody>
     <tr>
-      <th>${param.num} 번 회원을 정말 삭제하시겠습니까?</th>
+      <th>${param.num} 번글을 정말삭제하시겠습니까?</th>
       <td><input type="hidden" name="num" value="${param.num}"></td>
     </tr>
     </tbody>

@@ -1,12 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>JSP - Hello World</title>
   <style>
     input[type=text],
     textarea,
@@ -61,39 +57,34 @@
     }
   </style>
 </head>
-
 <body>
-<jsp:include page="../../top_menu.jsp"/>
+<jsp:include page="../top_menu.jsp"/>
 <div>
-  <h1>회원수정 페이지</h1>
-  <form action="m_updateOK.do" method="post">
+  <h1><%= "게시글 수정 페이지" %></h1>
+  <form action="b_updateOK.do" method="post">
     <table id="insertTable">
       <tr>
-        <td><label for="num">NUM</label></td>
+        <td><label for="num">글번호</label></td>
         <td>${param.num}<input type="hidden" id="num" name="num" value="${param.num}" ></td>
       </tr>
       <tr>
-        <td><label for="id">ID</label></td>
-        <td><input type="text" id="id" name="id" value="${vo2.id}" placeholder="ID를 입력하세요"></td>
+        <td><label for="title">제목</label></td>
+        <td><input type="text" id="title" name="title" value="${vo2.title}" placeholder="제목을 입력하세요"></td>
       </tr>
       <tr>
-        <td><label for="pw">PW</label></td>
-        <td><input type="text" id="pw" name="pw" value="${vo2.pw}" placeholder="PW를 입력하세요"></td>
+        <td><label for="content">내용</label></td>
+        <td><textarea name="content" id="content" cols="30" rows="10">${vo2.content}</textarea></td>
       </tr>
       <tr>
-      <tr>
-        <td><label for="name">NAME</label></td>
-        <td><input type="text" id="name" name="name" value="${vo2.name}" placeholder="NAME를 입력하세요"></td>
+        <td><label for="writer">작성자</label></td>
+        <td>admin1<input type="hidden" id="writer" name="writer" value="${vo2.writer}"></td>
       </tr>
       <tr>
-        <td><label for="tel">TEL</label></td>
-        <td><input type="text" id="tel" name="tel" value="${vo2.tel}" placeholder="TEL를 입력하세요"></td>
-      </tr>
-      <td colspan="2"><input type="submit" value="수정완료"></td>
+        <td colspan="2"><input type="submit" value="수정완료"></td>
       </tr>
     </table>
   </form>
 </div>
-</body>
 
+</body>
 </html>

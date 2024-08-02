@@ -1,4 +1,4 @@
-package com.example.web07total.model.member;
+package com.example.web07total.member.model;
 
 import java.util.List;
 

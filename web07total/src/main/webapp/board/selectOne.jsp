@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,7 @@
 <body>
 <h1><%= "게시글 상세 페이지" %></h1>
 <br/>
-<jsp:include page="../../top_menu.jsp"/>
+<jsp:include page="../top_menu.jsp"/>
 <table border="1">
   <thead>
   <tr>
@@ -30,5 +31,25 @@
 </table>
 <a href="b_update.do?num=${vo2.num}">게시글수정</a>
 <a href="b_delete.do?num=${vo2.num}">게시글삭제</a>
+<hr>
+<form action="c_insertOK.do">
+  <input type="hidden" id="bnum" name="bnum" value="${vo2.num}">
+  <input type="text" id="content" name="content" value="comment1">
+  <input type="text" id="writer" name="writer" value="admin3">
+  <input type="submit" value="댓글입력">
+</form>
+<hr>
+
+<table border="1">
+<c:forEach var="cvo" items="${clist}">
+  <tr>
+    <td>${cvo.num}</td>
+    <td>${cvo.content}</td>
+    <td>${cvo.writer}</td>
+    <td>${cvo.wdate}</td>
+    <td><a href="c_deleteOK.do?num=${cvo.num}&bnum=${vo2.num}">댓글삭제</a></td>
+  </tr>
+</c:forEach>
+</table>
 </body>
 </html>

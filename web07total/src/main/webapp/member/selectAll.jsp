@@ -8,7 +8,7 @@
 <body>
 <h1><%= "회원 목록 페이지" %></h1>
 <br/>
-<jsp:include page="../../top_menu.jsp"/>
+<jsp:include page="../top_menu.jsp"/>
 <form action="m_searchList.do">
   <select name="searchKey">
     <option value="id">id</option>

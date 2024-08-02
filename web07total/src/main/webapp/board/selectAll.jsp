@@ -8,7 +8,7 @@
 <body>
 <h1><%= "게시글 목록 페이지" %></h1>
 <br/>
-<jsp:include page="../../top_menu.jsp"/>
+<jsp:include page="../top_menu.jsp"/>
 <form action="b_searchList.do">
   <select name="searchKey">
     <option value="title">title</option>

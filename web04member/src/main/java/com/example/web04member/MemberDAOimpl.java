@@ -186,8 +186,8 @@ public class MemberDAOimpl implements MemberDAO{
             String sql = "";
             if(searchKey.equals("name")){
                 sql = "select * from member where name like ? order by num desc";
-            }else if(searchKey.equals("tel")){
-                sql = "select * from member where tel like ? order by num desc";
+            }else if(searchKey.equals("id")){
+                sql = "select * from member where id like ? order by num desc";
             }
 
             pstmt = conn.prepareStatement(sql);

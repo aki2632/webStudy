@@ -29,7 +29,7 @@ public class TotalController extends HttpServlet {
         //분기 처리
         //member 폴더를 만드시고 관련jsp파일을 이동시킨후 경로 변경해주세요
         if(sPath.equals("/m_insert.do")){
-            RequestDispatcher rd = request.getRequestDispatcher("member/insert.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("view/member/insert.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/m_update.do")){
 
@@ -43,10 +43,10 @@ public class TotalController extends HttpServlet {
 
             request.setAttribute("vo2",vo2);
 
-            RequestDispatcher rd = request.getRequestDispatcher("member/update.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("view/member/update.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/m_delete.do")){
-            RequestDispatcher rd = request.getRequestDispatcher("member/delete.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("view/member/delete.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/m_selectOne.do")){
 
@@ -60,7 +60,7 @@ public class TotalController extends HttpServlet {
 
             request.setAttribute("vo2",vo2);
 
-            RequestDispatcher rd = request.getRequestDispatcher("member/selectOne.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("view/member/selectOne.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/m_selectAll.do")){
 
@@ -70,7 +70,7 @@ public class TotalController extends HttpServlet {
             request.setAttribute("list",list);
 
 
-            RequestDispatcher rd = request.getRequestDispatcher("member/selectAll.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("view/member/selectAll.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/m_searchList.do")){
 
@@ -84,7 +84,7 @@ public class TotalController extends HttpServlet {
             request.setAttribute("list",list);
 
 
-            RequestDispatcher rd = request.getRequestDispatcher("member/selectAll.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("view/member/selectAll.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/m_insertOK.do")){
             String id = request.getParameter("id");
@@ -156,7 +156,7 @@ public class TotalController extends HttpServlet {
                 response.sendRedirect("m_delete.do?num=" + num);//서블릿패스
             }
         }else if(sPath.equals("/b_insert.do")){
-            RequestDispatcher rd = request.getRequestDispatcher("board/insert.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("view/board/insert.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/b_update.do")){
 
@@ -170,10 +170,10 @@ public class TotalController extends HttpServlet {
 
             request.setAttribute("vo2",vo2);
 
-            RequestDispatcher rd = request.getRequestDispatcher("board/update.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("view/board/update.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/b_delete.do")){
-            RequestDispatcher rd = request.getRequestDispatcher("board/delete.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("view/board/delete.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/b_selectOne.do")){
 
@@ -187,7 +187,7 @@ public class TotalController extends HttpServlet {
 
             request.setAttribute("vo2",vo2);
 
-            RequestDispatcher rd = request.getRequestDispatcher("board/selectOne.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("view/board/selectOne.jsp");
             rd.forward(request,response);
 
         }else if(sPath.equals("/b_selectAll.do")){
@@ -197,7 +197,7 @@ public class TotalController extends HttpServlet {
 
             request.setAttribute("list",list);
 
-            RequestDispatcher rd = request.getRequestDispatcher("board/selectAll.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("view/board/selectAll.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/b_searchList.do")){
             String searchKey = request.getParameter("searchKey");
@@ -208,7 +208,7 @@ public class TotalController extends HttpServlet {
             List<BoardVO> list = bdao.searchList(searchKey,searchWord);
             request.setAttribute("list",list);
 
-            RequestDispatcher rd = request.getRequestDispatcher("board/selectAll.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("view/board/selectAll.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/b_insertOK.do")){
             String title = request.getParameter("title");

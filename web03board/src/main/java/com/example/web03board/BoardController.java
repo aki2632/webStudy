@@ -159,8 +159,6 @@ public class BoardController extends HttpServlet {
                       HttpServletResponse response)
             throws IOException, ServletException {
         doGet(request,response);
-
-
     }//end doPost()....
 
     public void destroy() {

@@ -133,10 +133,10 @@ public class MemberController extends HttpServlet {
             int result = dao.update(vo);
             if(result ==1 ){
                 System.out.println("update successed...");
-                response.sendRedirect("m_selectOne.do?num="+num);//서블릿패스
+                response.sendRedirect("m_selectOne.do?num=" + num);//서블릿패스
             }else{
                 System.out.println("update failed...");
-                response.sendRedirect("m_update.do?num="+num);//서블릿패스
+                response.sendRedirect("m_update.do?num=" + num);//서블릿패스
             }
 
         }else if(sPath.equals("/m_deleteOK.do")){
@@ -152,12 +152,9 @@ public class MemberController extends HttpServlet {
                 response.sendRedirect("m_selectAll.do");//서블릿패스
             }else{
                 System.out.println("delete failed...");
-                response.sendRedirect("m_delete.do?num="+num);//서블릿패스
+                response.sendRedirect("m_delete.do?num=" + num);//서블릿패스
             }
         }
-
-
-
     }//end doGet()....
 
 

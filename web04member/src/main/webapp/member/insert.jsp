@@ -74,7 +74,7 @@
       </tr>
       <tr>
         <td><label for="pw">PW</label></td>
-        <td><input type="text" id="pw" name="pw" value="hi1111" placeholder="PW를 입력하세요"></td>
+        <td><input type="text" id="pw" name="pw" value="hillll" placeholder="PW를 입력하세요"></td>
       </tr>
       <tr>
       <tr>

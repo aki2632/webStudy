@@ -326,4 +326,55 @@ public class MemberDAOimpl implements MemberDAO{
         }
         return list;
     }
+
+    @Override
+    public MemberVO login(String id, String pw) {
+        System.out.println("login()....");
+        MemberVO vo = null;
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("conn successed...");
+
+            String sql = "SELECT * FROM member WHERE id = ? AND pw = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            pstmt.setString(2, pw);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                vo = new MemberVO();
+                vo.setNum(rs.getInt("num"));
+                vo.setId(rs.getString("id"));
+                vo.setPw(rs.getString("pw"));
+                vo.setName(rs.getString("name"));
+                vo.setTel(rs.getString("tel"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return vo;
+    }
 }

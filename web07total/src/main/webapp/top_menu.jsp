@@ -3,6 +3,7 @@
 <a href="home.do">HOME</a>
 <c:choose>
     <c:when test="${not empty sessionScope.user_id}">
+        ${user_id}
         <a href="m_logout.do">logout</a>
         <a href="m_selectAll.do">회원목록</a>
         <a href="b_insert.do">게시글 작성</a>

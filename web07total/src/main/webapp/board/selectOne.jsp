@@ -30,8 +30,10 @@
     </tr>
     </tbody>
 </table>
-<a href="b_update.do?num=${vo2.num}">게시글수정</a>
-<a href="b_delete.do?num=${vo2.num}">게시글삭제</a>
+<c:if test="${sessionScope.user_id == vo2.writer}">
+    <a href="b_update.do?num=${vo2.num}">게시글수정</a>
+    <a href="b_delete.do?num=${vo2.num}">게시글삭제</a>
+</c:if>
 <hr>
 <c:choose>
     <c:when test="${not empty sessionScope.user_id}">
@@ -39,6 +41,7 @@
             <input type="hidden" id="bnum" name="bnum" value="${vo2.num}">
             <input type="text" id="content" name="content" placeholder="댓글을 입력하세요">
             <input type="hidden" id="writer" name="writer" value="${sessionScope.user_id}">
+                ${sessionScope.user_id}
             <input type="submit" value="댓글입력">
         </form>
     </c:when>

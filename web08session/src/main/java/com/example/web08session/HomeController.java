@@ -14,6 +14,13 @@ public class HomeController extends HttpServlet {
         System.out.println(sPath);
 
         if (sPath.equals("/home.do")) {
+            Cookie[] cookies = request.getCookies();
+            System.out.println("Cookies: " + cookies);
+            for (Cookie x:cookies) {
+                System.out.println(x.getName());
+                System.out.println(x.getValue());
+            }
+
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response);
         }

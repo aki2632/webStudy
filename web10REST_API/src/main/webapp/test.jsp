@@ -24,7 +24,24 @@
             xhttp.open("GET","http://localhost:8090/web10REST_API_war_exploded/json_object2.do");
             xhttp.send();
 
-            // idCheck 비동기 로직 구현하기
+            document.querySelector("#btn_idCheck").onclick = function(){
+                console.log("btn_idCheck....");
+
+                let id = document.querySelector("#id").value;
+                console.log(id);
+
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function(){
+                    console.log(this.responseText);//문자열 :{"result":"Not OK"}
+
+                    let obj = JSON.parse(this.responseText);//객체로 변환해준다.
+                    console.log(obj.result);
+
+                    document.querySelector("#result").innerHTML = obj.result;
+                };
+                xhttp.open("GET","http://localhost:8090/web10REST_API_war_exploded/json_object3.do?id="+id);
+                xhttp.send();
+            };//end onclick....
 
         };
     </script>
@@ -37,6 +54,6 @@
 <hr>
 <input type="text" name="id" id="id" value="admin">
 <button id="btn_idCheck">idCheck</button>
-<span id="result">OK and Not OK</span>
+<span id="result">OK or Not OK</span>
 </body>
 </html>

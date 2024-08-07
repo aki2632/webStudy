@@ -10,7 +10,7 @@
         //http://localhost:8090/web10REST_API_war_exploded/json_object2.do
         window.onload = function(){
             console.log("onload.....");
-            const xhttp = new XMLHttpRequest();
+            const xhttp = new XMLHttpRequest(); // 비동기통신 객체
             xhttp.onload = function(){
                 console.log(this.responseText);//문자열 : {"name":"kim","age":22}
 

@@ -86,6 +86,12 @@ public class RestController extends HttpServlet {
             response.getWriter().println(new Gson().toJson(list));
         }
     }//end doGet.....
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("doPost()...");
+        doGet(request, response);
+    }
+
     public void destroy() {
     }
 }

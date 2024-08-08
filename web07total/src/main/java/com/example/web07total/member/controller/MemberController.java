@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet({"/m_insert.do","/m_update.do","/m_delete.do",
-        "/m_selectOne.do","/m_selectAll.do","/m_searchList.do",
+        "/m_selectOne.do","/m_selectAll.do","/ajax_m_selectAll.do","/ajax_m_selectOne.do","/m_searchList.do",
 "/m_insertOK.do","/m_updateOK.do","/m_deleteOK.do",
         "/login.do","/loginOK.do","/logout.do"})
 public class MemberController extends HttpServlet {
@@ -65,6 +65,9 @@ public class MemberController extends HttpServlet {
 
             RequestDispatcher rd = request.getRequestDispatcher("member/selectOne.jsp");
             rd.forward(request,response);
+        }else if(sPath.equals("/ajax_m_selectOne.do")){
+            RequestDispatcher rd = request.getRequestDispatcher("member/ajax_selectOne.jsp");
+            rd.forward(request,response);
         }else if(sPath.equals("/m_selectAll.do")){
 
 
@@ -74,6 +77,9 @@ public class MemberController extends HttpServlet {
 
 
             RequestDispatcher rd = request.getRequestDispatcher("member/selectAll.jsp");
+            rd.forward(request,response);
+        }else if(sPath.equals("/ajax_m_selectAll.do")){
+            RequestDispatcher rd = request.getRequestDispatcher("member/ajax_selectAll.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/m_searchList.do")){
 

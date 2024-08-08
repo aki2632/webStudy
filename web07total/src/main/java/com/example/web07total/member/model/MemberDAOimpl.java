@@ -328,46 +328,45 @@ public class MemberDAOimpl implements MemberDAO{
     }
 
     @Override
-    public MemberVO login(String id, String pw) {
+    public MemberVO login(MemberVO vo) {
         System.out.println("login()....");
-        MemberVO vo = null;
+        System.out.println(vo);
+        MemberVO vo2 = null;
+        //3-2 : 커넥션
         try {
-            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            conn = DriverManager.getConnection(URL,USER,PASSWORD);
             System.out.println("conn successed...");
 
-            String sql = "SELECT * FROM member WHERE id = ? AND pw = ?";
+            String sql = "select * from member where id=? and pw=?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, id);
-            pstmt.setString(2, pw);
+            pstmt.setString(1,vo.getId());
+            pstmt.setString(2,vo.getPw());
 
             rs = pstmt.executeQuery();
 
-            if (rs.next()) {
-                vo = new MemberVO();
-                vo.setNum(rs.getInt("num"));
-                vo.setId(rs.getString("id"));
-                vo.setPw(rs.getString("pw"));
-                vo.setName(rs.getString("name"));
-                vo.setTel(rs.getString("tel"));
+            while (rs.next()){
+                vo2 = new MemberVO();
+                vo2.setName(rs.getString("name"));
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            if (rs != null) {
+        }finally {
+            if(rs!=null) {
                 try {
                     rs.close();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
             }
-            if (pstmt != null) {
+            if(pstmt!=null) {
                 try {
                     pstmt.close();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
             }
-            if (conn != null) {
+            if(conn!=null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
@@ -375,6 +374,56 @@ public class MemberDAOimpl implements MemberDAO{
                 }
             }
         }
-        return vo;
+
+        return vo2;
+    }
+
+    @Override
+    public MemberVO idCheck(MemberVO vo) {
+        System.out.println("idCheck()....");
+        System.out.println(vo);
+        MemberVO vo2 = null;
+        //3-2 : 커넥션
+        try {
+            conn = DriverManager.getConnection(URL,USER,PASSWORD);
+            System.out.println("conn successed...");
+
+            String sql = "select * from member where id=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1,vo.getId());
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                vo2 = new MemberVO();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            if(rs!=null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if(pstmt!=null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if(conn!=null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        return vo2;
     }
 }

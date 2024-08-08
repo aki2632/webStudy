@@ -60,6 +60,44 @@
       background-color: #ffc6c6;
     }
   </style>
+
+  <script>
+    console.log("hello...");
+    //http://localhost:8090/web10REST_API_war_exploded/json_object2.do
+    window.onload = function(){
+      console.log("onload.....");
+
+      document.querySelector("#btn_idCheck").onclick = function(){
+        console.log("btn_idCheck....");
+
+        let id = document.querySelector("#id").value;
+        console.log(id);
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function(){
+          console.log(this.responseText);//문자열 :{"result":"Not OK"}
+
+          let obj = JSON.parse(this.responseText);//객체로 변환해준다.
+          console.log(obj.result);
+
+          let message = '';
+          if(obj.result === 'OK'){
+            message = '사용가능';
+          }else{
+            message = '중복된 아이디';
+          }
+
+          document.querySelector("#result").innerHTML = message;
+        };
+        xhttp.open("GET","http://localhost:8090/web07total_war_exploded/m_idCheck.do?id="+id);
+        xhttp.send();
+
+
+
+      };//end onclick....
+
+    };
+  </script>
 </head>
 
 <body>
@@ -70,7 +108,11 @@
     <table id="insertTable">
       <tr>
         <td><label for="id">ID</label></td>
-        <td><input type="text" id="id" name="id" value="admin" placeholder="ID를 입력하세요"></td>
+        <td>
+          <input type="text" id="id" name="id" value="admin" placeholder="ID를 입력하세요">
+          <input type="button" id="btn_idCheck" value="idCheck">
+          <span id="result">사용가능 or 중복된 아이디</span>
+        </td>
       </tr>
       <tr>
         <td><label for="pw">PW</label></td>

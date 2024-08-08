@@ -17,8 +17,9 @@ import java.util.List;
 @WebServlet({"/m_insert.do","/m_update.do","/m_delete.do",
         "/m_selectOne.do","/m_selectAll.do","/m_searchList.do",
 "/m_insertOK.do","/m_updateOK.do","/m_deleteOK.do",
-        "/m_login.do", "/m_loginOK.do", "/m_logout.do"})
+        "/login.do","/loginOK.do","/logout.do"})
 public class MemberController extends HttpServlet {
+
     MemberDAO dao = new MemberDAOimpl();
 
     public void doGet(HttpServletRequest request,
@@ -157,33 +158,41 @@ public class MemberController extends HttpServlet {
                 System.out.println("delete failed...");
                 response.sendRedirect("m_delete.do?num="+num);//서블릿패스
             }
-        }else if (sPath.equals("/m_login.do")) {
+        }else if(sPath.equals("/login.do")){
             RequestDispatcher rd = request.getRequestDispatcher("member/login.jsp");
-            rd.forward(request, response);
-        }else if (sPath.equals("/m_loginOK.do")) {
+            rd.forward(request,response);
+        }else if(sPath.equals("/loginOK.do")){
             String id = request.getParameter("id");
             String pw = request.getParameter("pw");
             System.out.println(id);
             System.out.println(pw);
 
-            MemberVO member = dao.login(id, pw);
+            MemberVO vo = new MemberVO();
+            vo.setId(id);
+            vo.setPw(pw);
 
-            if (member != null) {
+            MemberVO vo2 = dao.login(vo);//로그인 성공실패 리턴 null
+            System.out.println(vo2);
+            if(vo2 != null){
                 HttpSession session = request.getSession();
-                session.setAttribute("user_id", id); // EL${user_id}
-                session.setAttribute("name", member.getName()); // EL${name}
-                session.setMaxInactiveInterval(5 * 60); // 세션만료 시간: 5분
+                session.setAttribute("user_id",id);//EL${user_id}
+                session.setMaxInactiveInterval(5*60);//5분
                 response.sendRedirect("home.do");
-            } else {
-                request.setAttribute("errorMessage", "아이디 또는 비밀번호가 잘못되었습니다.");
-                RequestDispatcher rd = request.getRequestDispatcher("member/login.jsp");
-                rd.forward(request, response);
+            }else{
+                response.sendRedirect("login.do");
             }
-        } else if (sPath.equals("/m_logout.do")) {
+
+
+        }else if(sPath.equals("/logout.do")){
+            //로그아웃에 적용할 메소드들
             HttpSession session = request.getSession();
-            session.invalidate();
+            //session.removeAttribute("user_id");//속성제거
+            session.invalidate();//세션 제거
             response.sendRedirect("home.do");
         }
+
+
+
     }//end doGet()....
 
 

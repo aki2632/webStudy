@@ -3,65 +3,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+  <title>JSP - Hello World</title>
 </head>
 <body>
-<h1><%= "게시글 상세 페이지" %>
-</h1>
+<h1><%= "게시글 상세 페이지" %></h1>
 <br/>
 <jsp:include page="../top_menu.jsp"/>
 <table border="1">
-    <thead>
-    <tr>
-        <th>글번호</th>
-        <th>글제목</th>
-        <th>글내용</th>
-        <th>작성자</th>
-        <th>작성일자</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>${vo2.num}</td>
-        <td>${vo2.title}</td>
-        <td>${vo2.content}</td>
-        <td>${vo2.writer}</td>
-        <td>${vo2.wdate}</td>
-    </tr>
-    </tbody>
+  <thead>
+  <tr>
+    <th>글번호</th>
+    <th>글제목</th>
+    <th>글내용</th>
+    <th>작성자</th>
+    <th>작성일자</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>${vo2.num}</td>
+    <td>${vo2.title}</td>
+    <td>${vo2.content}</td>
+    <td>${vo2.writer}</td>
+    <td>${vo2.wdate}</td>
+  </tr>
+  </tbody>
 </table>
-<c:if test="${sessionScope.user_id == vo2.writer}">
-    <a href="b_update.do?num=${vo2.num}">게시글수정</a>
-    <a href="b_delete.do?num=${vo2.num}">게시글삭제</a>
-</c:if>
+<a href="b_update.do?num=${vo2.num}">게시글수정</a>
+<a href="b_delete.do?num=${vo2.num}">게시글삭제</a>
 <hr>
-<c:choose>
-    <c:when test="${not empty sessionScope.user_id}">
-        <form action="c_insertOK.do">
-            <input type="hidden" id="bnum" name="bnum" value="${vo2.num}">
-            <input type="text" id="content" name="content" placeholder="댓글을 입력하세요">
-            <input type="hidden" id="writer" name="writer" value="${sessionScope.user_id}">
-                ${sessionScope.user_id}
-            <input type="submit" value="댓글입력">
-        </form>
-    </c:when>
-</c:choose>
+<form action="c_insertOK.do">
+  <input type="hidden" id="bnum" name="bnum" value="${vo2.num}">
+  <input type="text" id="content" name="content" value="comment1">
+  ${user_id}
+  <input type="hidden" id="writer" name="writer" value="${user_id}">
+  <input type="submit" value="댓글입력">
+</form>
 <hr>
 
 <table border="1">
-    <c:forEach var="cvo" items="${clist}">
-        <tr>
-            <td>${cvo.num}</td>
-            <td>${cvo.content}</td>
-            <td>${cvo.writer}</td>
-            <td>${cvo.wdate}</td>
-            <td>
-                <c:if test="${sessionScope.user_id == cvo.writer}">
-                    <a href="c_deleteOK.do?num=${cvo.num}&bnum=${vo2.num}">댓글삭제</a>
-                </c:if>
-            </td>
-        </tr>
-    </c:forEach>
+<c:forEach var="cvo" items="${clist}">
+  <tr>
+    <td>${cvo.num}</td>
+    <td>${cvo.content}</td>
+    <td>${cvo.writer}</td>
+    <td>${cvo.wdate}</td>
+    <td>
+      <c:if test="${cvo.writer == user_id}">
+        <a href="c_deleteOK.do?num=${cvo.num}&bnum=${vo2.num}">댓글삭제</a>
+      </c:if>
+    </td>
+  </tr>
+</c:forEach>
 </table>
 </body>
 </html>

@@ -1,12 +1,11 @@
-package com.example.mini_05_marketmulti.board.model;
+package com.example.mini_05_marketmulti.review.model;
+
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardDAOimpl implements BoardDAO {
-
-
+public class ReviewDAOimpl implements ReviewDAO {
 
     //3-1 : 전역변수 설정
     private static final String DRIVER_NAME = "oracle.jdbc.OracleDriver";
@@ -17,13 +16,9 @@ public class BoardDAOimpl implements BoardDAO {
     private PreparedStatement pstmt;//쿼리(sql문-CRUD)실행객체
     private ResultSet rs;//select문 리턴 객체
 
-    public BoardDAOimpl(){
-        //1.jdbc라이브러리 세팅(경로설정)
-        //C:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib : ojdbc6.jar복사
-        //내 프로젝트 >> lib폴더(없다면 생성)에 >> 복붙
-        //상단 메뉴> File > Project Structure > Libraries > + : java 선택 > 복붙경로 > ojdbc6.jar선택
+    public ReviewDAOimpl(){
+        System.out.println("CommentsDAOimpl().....");
 
-        //2.오라클 드라이버 클래스 찾아서 인식(연동)-객체 생성시 즉 생성자에서 구현
         try {
             Class.forName(DRIVER_NAME);
             System.out.println("Driver successed...");
@@ -31,35 +26,31 @@ public class BoardDAOimpl implements BoardDAO {
             throw new RuntimeException(e);
         }
 
-        //3.URL(호스트),사용자명,비번을 이용하여 데이터베이스 연동
-        // 3-1 -전역변수 선언
-        // 3-2 -각 메소드에서 구현
     }
 
     @Override
-    public int insert(BoardVO vo) {
-        System.out.println("inert()....");
+    public int insert(ReviewVO vo) {
+        System.out.println("insert()....");
         System.out.println(vo);
         int flag = 0;
 
-        //3-2 : 커넥션
         try {
             conn = DriverManager.getConnection(URL,USER,PASSWORD);
             System.out.println("conn successed...");
 
-            String sql = "insert into board(board_id,title,content,writer) " +
-                    "values(seq_board.nextval,?,?,?)";
+            String sql = "insert into comments(review_id,product_id,content,writer) " +
+                    " values(seq_comments.nextval,?,?,?)";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,vo.getTitle());
+            pstmt.setInt(1,vo.getProductId());
             pstmt.setString(2,vo.getContent());
             pstmt.setString(3,vo.getWriter());
 
             flag = pstmt.executeUpdate();//DML
-            System.out.println("flag : "+ flag);
+            System.out.println("flag:"+flag);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
-
             if(pstmt!=null) {
                 try {
                     pstmt.close();
@@ -74,36 +65,35 @@ public class BoardDAOimpl implements BoardDAO {
                     throw new RuntimeException(e);
                 }
             }
-        }
+        }//finally
+
 
         return flag;
     }
 
     @Override
-    public int update(BoardVO vo) {
+    public int update(ReviewVO vo) {
         System.out.println("update()....");
         System.out.println(vo);
         int flag = 0;
 
-        //3-2 : 커넥션
         try {
             conn = DriverManager.getConnection(URL,USER,PASSWORD);
             System.out.println("conn successed...");
 
-            String sql = "update board set title=?,content=?,writer=?,wdate=sysdate " +
-                    " where board_id=?";
+            String sql = "update comments set content=?,wdate=sysdate " +
+                    " where review_id=?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,vo.getTitle());
-            pstmt.setString(2,vo.getContent());
-            pstmt.setString(3,vo.getWriter());
-            pstmt.setInt(4,vo.getNum());
+
+            pstmt.setString(1,vo.getContent());
+            pstmt.setInt(2,vo.getReviewId());
 
             flag = pstmt.executeUpdate();//DML
-            System.out.println("flag : "+ flag);
+            System.out.println("flag:"+flag);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
-
             if(pstmt!=null) {
                 try {
                     pstmt.close();
@@ -118,33 +108,34 @@ public class BoardDAOimpl implements BoardDAO {
                     throw new RuntimeException(e);
                 }
             }
-        }
+        }//finally
+
 
         return flag;
     }
 
     @Override
-    public int delete(BoardVO vo) {
+    public int delete(ReviewVO vo) {
         System.out.println("delete()....");
         System.out.println(vo);
         int flag = 0;
 
-        //3-2 : 커넥션
         try {
             conn = DriverManager.getConnection(URL,USER,PASSWORD);
             System.out.println("conn successed...");
 
-            String sql = "delete from board " +
-                    " where board_id=?";
+            String sql = "delete from comments " +
+                    " where review_id=?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,vo.getNum());
+
+            pstmt.setInt(1,vo.getReviewId());
 
             flag = pstmt.executeUpdate();//DML
-            System.out.println("flag : "+ flag);
+            System.out.println("flag:"+flag);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
-
             if(pstmt!=null) {
                 try {
                     pstmt.close();
@@ -159,32 +150,34 @@ public class BoardDAOimpl implements BoardDAO {
                     throw new RuntimeException(e);
                 }
             }
-        }
+        }//finally
+
+
         return flag;
     }
 
     @Override
-    public BoardVO selectOne(BoardVO vo) {
+    public ReviewVO selectOne(ReviewVO vo) {
         System.out.println("selectOne()....");
         System.out.println(vo);
-        BoardVO vo2 = null;
+        ReviewVO vo2 = null;
+
         try {
             conn = DriverManager.getConnection(URL,USER,PASSWORD);
             System.out.println("conn successed...");
 
-            String sql = "select * from board where board_id=?";
+            String sql = "select * from comments where review_id=?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,vo.getNum());
+            pstmt.setInt(1,vo.getReviewId());
+
             rs = pstmt.executeQuery();
             while(rs.next()){
-                vo2 = new BoardVO();
-                vo2.setNum(rs.getInt("board_id"));
-                vo2.setTitle(rs.getString("title"));
+                vo2 = new ReviewVO();
+                vo2.setReviewId(rs.getInt("review_id"));
+                vo2.setProductId(rs.getInt("product_id"));
                 vo2.setContent(rs.getString("content"));
                 vo2.setWriter(rs.getString("writer"));
-                vo2.setWdate(new Timestamp(rs.getTimestamp("wdate").getTime()));
-
-
+                vo2.setWdate(new Timestamp(rs.getTimestamp("wdate").getTime()).toString());
             }
 
         } catch (SQLException e) {
@@ -211,35 +204,37 @@ public class BoardDAOimpl implements BoardDAO {
                     throw new RuntimeException(e);
                 }
             }
-        }
+        }//finally
 
         return vo2;
     }
 
     @Override
-    public List<BoardVO> selectAll() {
-        System.out.println("selectAll()....");
-        List<BoardVO> list = new ArrayList<>();
+    public List<ReviewVO> selectAll(int product_id) {
+        System.out.println("selectAll()....product_id:"+product_id);
+        List<ReviewVO> list = new ArrayList<>();
+
 
         try {
             conn = DriverManager.getConnection(URL,USER,PASSWORD);
             System.out.println("conn successed...");
 
-            String sql = "select * from board order by board_id desc";
+            String sql = "select * from comments where product_id=? " +
+                    " order by review_id desc";
             pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,product_id);
+
             rs = pstmt.executeQuery();
             while(rs.next()){
-                BoardVO vo = new BoardVO();
-                vo.setNum(rs.getInt("board_id"));
-                vo.setTitle(rs.getString("title"));
+                ReviewVO vo = new ReviewVO();
+                vo.setReviewId(rs.getInt("review_id"));
+                vo.setProductId(rs.getInt("product_id"));
                 vo.setContent(rs.getString("content"));
                 vo.setWriter(rs.getString("writer"));
-                //vo.setWdate(rs.getDate("wdate").toString());
-                //vo.setWdate(new Timestamp(rs.getDate("wdate").getTime()).toString());
-                vo.setWdate(new Timestamp(rs.getTimestamp("wdate").getTime()));
+                vo.setWdate(new Timestamp(rs.getTimestamp("wdate").getTime()).toString());
                 list.add(vo);
             }
-
+            System.out.println("list.size():"+list.size());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
@@ -270,38 +265,40 @@ public class BoardDAOimpl implements BoardDAO {
     }
 
     @Override
-    public List<BoardVO> searchList(String searchKey, String searchWord) {
-        System.out.println("searchList()....");
-        System.out.println(searchKey);
-        System.out.println(searchWord);
-        List<BoardVO> vos = new ArrayList<>();
+    public List<ReviewVO> searchList(String searchKey, String searchWord, int product_id) {
+        System.out.println("searchList()....product_id:"+product_id);
+        System.out.println("searchList()....searchKey:"+searchKey);
+        System.out.println("searchList()....searchWord:"+searchWord);
+        List<ReviewVO> list = new ArrayList<>();
 
         try {
             conn = DriverManager.getConnection(URL,USER,PASSWORD);
             System.out.println("conn successed...");
 
             String sql = "";
-            if(searchKey.equals("title")){
-                sql = "select * from board where title like ? order by board_id desc";
-            }else if(searchKey.equals("content")){
-                sql = "select * from board where content like ? order by board_id desc";
+            if(searchKey.equals("content")){
+                sql = "select * from comments where product_id=? and content like ? " +
+                        " order by review_id desc";
+            }else{
+                sql = "select * from comments where product_id=?  and writer like ? " +
+                        " order by review_id desc";
             }
 
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,"%"+searchWord+"%");
-
+            pstmt.setInt(1,product_id);
+            pstmt.setString(2,"%"+searchWord+"%");
 
             rs = pstmt.executeQuery();
             while(rs.next()){
-                BoardVO vo = new BoardVO();
-                vo.setNum(rs.getInt("board_id"));
-                vo.setTitle(rs.getString("title"));
+                ReviewVO vo = new ReviewVO();
+                vo.setReviewId(rs.getInt("review_id"));
+                vo.setProductId(rs.getInt("product_id"));
                 vo.setContent(rs.getString("content"));
                 vo.setWriter(rs.getString("writer"));
-                vo.setWdate(new Timestamp(rs.getTimestamp("wdate").getTime()));
-                vos.add(vo);
+                vo.setWdate(new Timestamp(rs.getTimestamp("wdate").getTime()).toString());
+                list.add(vo);
             }
-
+            System.out.println("list.size():"+list.size());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
@@ -326,12 +323,8 @@ public class BoardDAOimpl implements BoardDAO {
                     throw new RuntimeException(e);
                 }
             }
-        }
+        }//finally
 
-
-
-        return vos;
+        return list;
     }
-
-
-}//end class
+}

@@ -1,9 +1,11 @@
 package com.example.mini_05_marketmulti.board.controller;
 
-import com.example.web07total.board.model.BoardDAO;
-import com.example.web07total.board.model.BoardDAOimpl;
-import com.example.web07total.board.model.BoardVO;
+import com.example.mini_05_marketmulti.board.model.BoardDAO;
+import com.example.mini_05_marketmulti.board.model.BoardDAOimpl;
+import com.example.mini_05_marketmulti.board.model.BoardVO;
+
 import com.google.gson.Gson;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

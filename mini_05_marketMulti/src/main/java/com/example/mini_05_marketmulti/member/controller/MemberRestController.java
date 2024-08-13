@@ -1,9 +1,11 @@
 package com.example.mini_05_marketmulti.member.controller;
 
-import com.example.web07total.member.model.MemberDAO;
-import com.example.web07total.member.model.MemberDAOimpl;
-import com.example.web07total.member.model.MemberVO;
+import com.example.mini_05_marketmulti.member.model.MemberDAO;
+import com.example.mini_05_marketmulti.member.model.MemberDAOimpl;
+import com.example.mini_05_marketmulti.member.model.MemberVO;
+
 import com.google.gson.Gson;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -29,11 +31,11 @@ public class MemberRestController extends HttpServlet {
         System.out.println("sPath:" + sPath);
         
         if (sPath.equals("/m_idCheck.do")) {
-            String id = request.getParameter("id");
-            System.out.println(id);
+            String member_id = request.getParameter("member_id");
+            System.out.println(member_id);
 
             MemberVO vo = new MemberVO();
-            vo.setId(id);
+            vo.setMemberId(member_id);
 
             MemberVO vo2 = dao.idCheck(vo);
             Map<String, String> map = new HashMap<>();
@@ -50,10 +52,10 @@ public class MemberRestController extends HttpServlet {
             out.println(new Gson().toJson(list));
         } else if (sPath.equals("/json_m_selectOne.do")) {
             //회원정보 rest api 구현하기.
-            String num = request.getParameter("num");
+            String member_num = request.getParameter("member_num");
 
             MemberVO vo = new MemberVO();
-            vo.setNum(Integer.parseInt(num));
+            vo.setMemberNum(Integer.parseInt(member_num));
 
             MemberVO vo2 = dao.selectOne(vo);
 

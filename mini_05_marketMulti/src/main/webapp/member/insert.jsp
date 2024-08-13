@@ -94,7 +94,7 @@
         // xhttp.send();
 
         //2.제이쿼리 비동기통신 방법으로 구현하세요
-        let url2 = "http://localhost:8090/web07total_war_exploded/m_idCheck.do";
+        let url2 = "http://localhost:8090/mini_05_marketMulti_war_exploded/m_idCheck.do";
         $.ajax({
           url:url2,
           type:"get",

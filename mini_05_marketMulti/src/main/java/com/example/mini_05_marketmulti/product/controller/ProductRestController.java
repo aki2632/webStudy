@@ -1,9 +1,11 @@
 package com.example.mini_05_marketmulti.product.controller;
 
-import com.example.web07total.member.model.MemberDAO;
-import com.example.web07total.member.model.MemberDAOimpl;
-import com.example.web07total.member.model.MemberVO;
+import com.example.mini_05_marketmulti.product.model.ProductDAO;
+import com.example.mini_05_marketmulti.product.model.ProductDAOimpl;
+import com.example.mini_05_marketmulti.product.model.ProductVO;
+
 import com.google.gson.Gson;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,62 +18,48 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet({"/m_idCheck.do", "/json_m_selectAll.do", "/json_m_selectOne.do"})
+@WebServlet({"/json_p_selectAll.do", "/json_p_selectOne.do"})
 public class ProductRestController extends HttpServlet {
 
-    MemberDAO dao = new MemberDAOimpl();
+    ProductDAO dao = new ProductDAOimpl();
 
+    @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response)
             throws IOException, ServletException {
 
         String sPath = request.getServletPath();
         System.out.println("sPath:" + sPath);
-        
-        if (sPath.equals("/m_idCheck.do")) {
-            String id = request.getParameter("id");
-            System.out.println(id);
 
-            MemberVO vo = new MemberVO();
-            vo.setId(id);
-
-            MemberVO vo2 = dao.idCheck(vo);
-            Map<String, String> map = new HashMap<>();
-            if (vo2 == null) map.put("result", "OK");
-            else map.put("result", "Not OK");
-            PrintWriter out = response.getWriter();
-            out.println(new Gson().toJson(map));
-        } else if (sPath.equals("/json_m_selectAll.do")) {
-            //회원목록 rest api 구현하기.
-
-            List<MemberVO> list = dao.selectAll();
+        if (sPath.equals("/json_p_selectAll.do")) {
+            // 모든 제품 목록을 JSON으로 반환
+            List<ProductVO> list = dao.selectAll();
 
             PrintWriter out = response.getWriter();
             out.println(new Gson().toJson(list));
-        } else if (sPath.equals("/json_m_selectOne.do")) {
-            //회원정보 rest api 구현하기.
+        } else if (sPath.equals("/json_p_selectOne.do")) {
+            // 특정 제품 정보를 JSON으로 반환
             String num = request.getParameter("num");
 
-            MemberVO vo = new MemberVO();
+            ProductVO vo = new ProductVO();
             vo.setNum(Integer.parseInt(num));
 
-            MemberVO vo2 = dao.selectOne(vo);
+            ProductVO vo2 = dao.selectOne(vo);
 
             PrintWriter out = response.getWriter();
             out.println(new Gson().toJson(vo2));
         }
+    }
 
-
-    }//end doGet()....
-
-
+    @Override
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response)
             throws IOException, ServletException {
         doGet(request, response);
     }
 
-
+    @Override
     public void destroy() {
+        // 리소스 해제 관련 로직을 넣을 수 있습니다.
     }
 }

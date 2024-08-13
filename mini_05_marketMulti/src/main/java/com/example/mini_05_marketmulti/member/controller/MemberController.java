@@ -1,8 +1,9 @@
 package com.example.mini_05_marketmulti.member.controller;
 
-import com.example.web07total.member.model.MemberDAO;
-import com.example.web07total.member.model.MemberDAOimpl;
-import com.example.web07total.member.model.MemberVO;
+import com.example.mini_05_marketmulti.member.model.MemberDAO;
+import com.example.mini_05_marketmulti.member.model.MemberDAOimpl;
+import com.example.mini_05_marketmulti.member.model.MemberVO;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -40,7 +41,7 @@ public class MemberController extends HttpServlet {
             System.out.println(num);
 
             MemberVO vo = new MemberVO();
-            vo.setNum(Integer.parseInt(num));
+            vo.setMemberNum(Integer.parseInt(num));
 
             MemberVO vo2 = dao.selectOne(vo);
 
@@ -57,7 +58,7 @@ public class MemberController extends HttpServlet {
             System.out.println(num);
 
             MemberVO vo = new MemberVO();
-            vo.setNum(Integer.parseInt(num));
+            vo.setMemberNum(Integer.parseInt(num));
 
             MemberVO vo2 = dao.selectOne(vo);
 
@@ -96,17 +97,17 @@ public class MemberController extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("member/selectAll.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/m_insertOK.do")){
-            String id = request.getParameter("id");
+            String member_id = request.getParameter("member_id");
             String pw = request.getParameter("pw");
             String name = request.getParameter("name");
             String tel = request.getParameter("tel");
-            System.out.println(id);
+            System.out.println(member_id);
             System.out.println(pw);
             System.out.println(name);
             System.out.println(tel);
 
             MemberVO vo = new MemberVO();
-            vo.setId(id);
+            vo.setMemberId(member_id);
             vo.setPw(pw);
             vo.setName(name);
             vo.setTel(tel);
@@ -122,20 +123,20 @@ public class MemberController extends HttpServlet {
 
         }else if(sPath.equals("/m_updateOK.do")){
             String num = request.getParameter("num");
-            String id = request.getParameter("id");
+            String member_id = request.getParameter("member_id");
             String pw = request.getParameter("pw");
             String name = request.getParameter("name");
             String tel = request.getParameter("tel");
             System.out.println(num);
-            System.out.println(id);
+            System.out.println(member_id);
             System.out.println(pw);
             System.out.println(name);
             System.out.println(tel);
 
 
             MemberVO vo = new MemberVO();
-            vo.setNum(Integer.parseInt(num));
-            vo.setId(id);
+            vo.setMemberNum(Integer.parseInt(num));
+            vo.setMemberId(member_id);
             vo.setPw(pw);
             vo.setName(name);
             vo.setTel(tel);
@@ -154,7 +155,7 @@ public class MemberController extends HttpServlet {
             System.out.println(num);
 
             MemberVO vo = new MemberVO();
-            vo.setNum(Integer.parseInt(num));
+            vo.setMemberNum(Integer.parseInt(num));
 
             int result = dao.delete(vo);
             if(result ==1 ){
@@ -168,20 +169,20 @@ public class MemberController extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("member/login.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/loginOK.do")){
-            String id = request.getParameter("id");
+            String member_id = request.getParameter("member_id");
             String pw = request.getParameter("pw");
-            System.out.println(id);
+            System.out.println(member_id);
             System.out.println(pw);
 
             MemberVO vo = new MemberVO();
-            vo.setId(id);
+            vo.setMemberId(member_id);
             vo.setPw(pw);
 
             MemberVO vo2 = dao.login(vo);//로그인 성공실패 리턴 null
             System.out.println(vo2);
             if(vo2 != null){
                 HttpSession session = request.getSession();
-                session.setAttribute("user_id",id);//EL${user_id}
+                session.setAttribute("user_id",member_id);//EL${user_id}
                 session.setMaxInactiveInterval(5*60);//5분
                 response.sendRedirect("home.do");
             }else{

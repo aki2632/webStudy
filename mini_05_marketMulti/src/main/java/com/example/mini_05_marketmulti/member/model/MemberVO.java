@@ -1,37 +1,39 @@
 package com.example.mini_05_marketmulti.member.model;
 
 public class MemberVO {
-    private int num;
-    private String id;
+    private int member_num;
+    private String member_id;
     private String pw;
     private String name;
     private String tel;
+    private String address;
 
     @Override
     public String toString() {
         return "MemberVO{" +
-                "num=" + num +
-                ", id='" + id + '\'' +
+                "member_num=" + member_num +
+                ", member_id='" + member_id + '\'' +
                 ", pw='" + pw + '\'' +
                 ", name='" + name + '\'' +
                 ", tel='" + tel + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 
-    public int getNum() {
-        return num;
+    public int getMemberNum() {
+        return member_num;
     }
 
-    public void setNum(int num) {
-        this.num = num;
+    public void setMemberNum(int member_num) {
+        this.member_num = member_num;
     }
 
-    public String getId() {
-        return id;
+    public String getMemberId() {
+        return member_id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setMemberId(String member_id) {
+        this.member_id = member_id;
     }
 
     public String getPw() {
@@ -56,5 +58,13 @@ public class MemberVO {
 
     public void setTel(String tel) {
         this.tel = tel;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

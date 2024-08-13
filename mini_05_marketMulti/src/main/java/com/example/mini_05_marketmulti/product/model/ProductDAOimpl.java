@@ -11,7 +11,7 @@ public class ProductDAOimpl implements ProductDAO {
     //3-1 : 전역변수 설정
     private static final String DRIVER_NAME = "oracle.jdbc.OracleDriver";
     private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
-    private static final String USER = "JAVA";
+    private static final String USER = "HR";
     private static final String PASSWORD = "hi123456";
     private Connection conn;//커넥션객체
     private PreparedStatement pstmt;//쿼리(sql문-CRUD)실행객체
@@ -85,7 +85,7 @@ public class ProductDAOimpl implements ProductDAO {
             conn = DriverManager.getConnection(URL,USER,PASSWORD);
             System.out.println("conn successed...");
 
-            String sql = "select * from product where num=?";
+            String sql = "select * from product where product_id=?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,vo.getNum());
 
@@ -93,7 +93,7 @@ public class ProductDAOimpl implements ProductDAO {
 
             while (rs.next()){
                 vo2 = new ProductVO();
-                vo2.setNum(rs.getInt("num"));
+                vo2.setNum(rs.getInt("product_id"));
                 vo2.setPname(rs.getString("pname"));
                 vo2.setModel(rs.getString("model"));
                 vo2.setPrice(rs.getInt("price"));
@@ -119,14 +119,14 @@ public class ProductDAOimpl implements ProductDAO {
             conn = DriverManager.getConnection(URL,USER,PASSWORD);
             System.out.println("conn successed...");
 
-            String sql = "select * from product order by num desc";
+            String sql = "select * from product order by product_id desc";
             pstmt = conn.prepareStatement(sql);
 
             rs = pstmt.executeQuery();//DQL-select
 
             while(rs.next()){
                 ProductVO vo = new ProductVO();
-                vo.setNum(rs.getInt("num"));
+                vo.setNum(rs.getInt("product_id"));
                 vo.setPname(rs.getString("pname"));
                 vo.setModel(rs.getString("model"));
                 vo.setPrice(rs.getInt("price"));
@@ -157,10 +157,10 @@ public class ProductDAOimpl implements ProductDAO {
             String sql = "";
 
             if (searchKey.equals("pname")) {
-                sql = "select * from product where pname like ? order by num desc";
+                sql = "select * from product where pname like ? order by product_id desc";
             }
             else if(searchKey.equals("model")) {
-                sql = "select * from product where model like ? order by num desc";
+                sql = "select * from product where model like ? order by product_id desc";
             }
 
             pstmt = conn.prepareStatement(sql);
@@ -170,7 +170,7 @@ public class ProductDAOimpl implements ProductDAO {
 
             while(rs.next()){
                 ProductVO vo = new ProductVO();
-                vo.setNum(rs.getInt("num"));
+                vo.setNum(rs.getInt("product_id"));
                 vo.setPname(rs.getString("pname"));
                 vo.setModel(rs.getString("model"));
                 vo.setPrice(rs.getInt("price"));

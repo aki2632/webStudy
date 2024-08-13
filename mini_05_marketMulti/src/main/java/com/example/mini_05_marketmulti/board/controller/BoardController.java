@@ -1,11 +1,13 @@
 package com.example.mini_05_marketmulti.board.controller;
 
-import com.example.web07total.board.model.BoardDAO;
-import com.example.web07total.board.model.BoardDAOimpl;
-import com.example.web07total.board.model.BoardVO;
-import com.example.web07total.comments.model.CommentsDAO;
-import com.example.web07total.comments.model.CommentsDAOimpl;
-import com.example.web07total.comments.model.CommentsVO;
+import com.example.mini_05_marketmulti.board.model.BoardDAO;
+import com.example.mini_05_marketmulti.board.model.BoardDAOimpl;
+import com.example.mini_05_marketmulti.board.model.BoardVO;
+
+import com.example.mini_05_marketmulti.review.model.ReviewDAO;
+import com.example.mini_05_marketmulti.review.model.ReviewDAOimpl;
+import com.example.mini_05_marketmulti.review.model.ReviewVO;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,7 +26,7 @@ public class BoardController extends HttpServlet {
 
     //BoardDAO,BoardDAOimpl 생성하시고 각매소드들을 해당분기문에서 호출해서 로그출력하세요
     BoardDAO dao = new BoardDAOimpl();
-    CommentsDAO cdao = new CommentsDAOimpl();
+    ReviewDAO rdao = new ReviewDAOimpl();
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response)
@@ -67,7 +69,7 @@ public class BoardController extends HttpServlet {
             request.setAttribute("vo2",vo2);
 
 
-            List<CommentsVO> clist = cdao.selectAll(num);
+            List<ReviewVO> clist = rdao.selectAll(num);
             request.setAttribute("clist",clist);
 
             RequestDispatcher rd = request.getRequestDispatcher("board/selectOne.jsp");

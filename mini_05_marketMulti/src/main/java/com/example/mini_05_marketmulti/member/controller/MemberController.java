@@ -3,7 +3,6 @@ package com.example.mini_05_marketmulti.member.controller;
 import com.example.mini_05_marketmulti.member.model.MemberDAO;
 import com.example.mini_05_marketmulti.member.model.MemberDAOimpl;
 import com.example.mini_05_marketmulti.member.model.MemberVO;
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -41,7 +40,7 @@ public class MemberController extends HttpServlet {
             System.out.println(num);
 
             MemberVO vo = new MemberVO();
-            vo.setMemberNum(Integer.parseInt(num));
+            vo.setNum(Integer.parseInt(num));
 
             MemberVO vo2 = dao.selectOne(vo);
 
@@ -58,7 +57,7 @@ public class MemberController extends HttpServlet {
             System.out.println(num);
 
             MemberVO vo = new MemberVO();
-            vo.setMemberNum(Integer.parseInt(num));
+            vo.setNum(Integer.parseInt(num));
 
             MemberVO vo2 = dao.selectOne(vo);
 
@@ -97,20 +96,23 @@ public class MemberController extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("member/selectAll.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/m_insertOK.do")){
-            String member_id = request.getParameter("member_id");
+            String id = request.getParameter("id");
             String pw = request.getParameter("pw");
             String name = request.getParameter("name");
             String tel = request.getParameter("tel");
-            System.out.println(member_id);
+            String address = request.getParameter("address");
+            System.out.println(id);
             System.out.println(pw);
             System.out.println(name);
             System.out.println(tel);
+            System.out.println(address);
 
             MemberVO vo = new MemberVO();
-            vo.setMemberId(member_id);
+            vo.setId(id);
             vo.setPw(pw);
             vo.setName(name);
-            vo.setTel(tel);
+            vo.setTel(tel);   // tel을 setTel로 설정
+            vo.setAddress(address);  // address를 setAddress로 설정
 
             int result = dao.insert(vo);
             if(result ==1 ){
@@ -120,26 +122,27 @@ public class MemberController extends HttpServlet {
                 System.out.println("insert failed...");
                 response.sendRedirect("m_insert.do");//서블릿패스
             }
-
         }else if(sPath.equals("/m_updateOK.do")){
             String num = request.getParameter("num");
-            String member_id = request.getParameter("member_id");
+            String id = request.getParameter("id");
             String pw = request.getParameter("pw");
             String name = request.getParameter("name");
             String tel = request.getParameter("tel");
+            String address = request.getParameter("address");
             System.out.println(num);
-            System.out.println(member_id);
+            System.out.println(id);
             System.out.println(pw);
             System.out.println(name);
             System.out.println(tel);
-
+            System.out.println(address);
 
             MemberVO vo = new MemberVO();
-            vo.setMemberNum(Integer.parseInt(num));
-            vo.setMemberId(member_id);
+            vo.setNum(Integer.parseInt(num));
+            vo.setId(id);
             vo.setPw(pw);
             vo.setName(name);
-            vo.setTel(tel);
+            vo.setTel(tel);   // tel을 setTel로 설정
+            vo.setAddress(address);  // address를 setAddress로 설정
 
             int result = dao.update(vo);
             if(result ==1 ){
@@ -149,13 +152,12 @@ public class MemberController extends HttpServlet {
                 System.out.println("update failed...");
                 response.sendRedirect("m_update.do?num="+num);//서블릿패스
             }
-
         }else if(sPath.equals("/m_deleteOK.do")){
             String num = request.getParameter("num");
             System.out.println(num);
 
             MemberVO vo = new MemberVO();
-            vo.setMemberNum(Integer.parseInt(num));
+            vo.setNum(Integer.parseInt(num));
 
             int result = dao.delete(vo);
             if(result ==1 ){
@@ -168,33 +170,30 @@ public class MemberController extends HttpServlet {
         }else if(sPath.equals("/login.do")){
             RequestDispatcher rd = request.getRequestDispatcher("member/login.jsp");
             rd.forward(request,response);
-        }else if(sPath.equals("/loginOK.do")){
-            String member_id = request.getParameter("member_id");
+        }else if (sPath.equals("/loginOK.do")) {
+            String id = request.getParameter("id");
             String pw = request.getParameter("pw");
-            System.out.println(member_id);
-            System.out.println(pw);
 
             MemberVO vo = new MemberVO();
-            vo.setMemberId(member_id);
+            vo.setId(id);
             vo.setPw(pw);
 
-            MemberVO vo2 = dao.login(vo);//로그인 성공실패 리턴 null
-            System.out.println(vo2);
-            if(vo2 != null){
+            MemberVO vo2 = dao.login(vo);
+
+            if (vo2 != null) {
                 HttpSession session = request.getSession();
-                session.setAttribute("user_id",member_id);//EL${user_id}
-                session.setMaxInactiveInterval(5*60);//5분
+                session.setAttribute("user_id", id);  // 사용자 ID 저장
+                session.setAttribute("mnum", vo2.getNum());  // 사용자 번호 저장
+                session.setAttribute("address", vo2.getAddress()); // 사용자 주소 저장
+                session.setMaxInactiveInterval(5 * 60);  // 5분
                 response.sendRedirect("home.do");
-            }else{
+            } else {
                 response.sendRedirect("login.do");
             }
 
-
-        }else if(sPath.equals("/logout.do")){
-            //로그아웃에 적용할 메소드들
+        } else if (sPath.equals("/logout.do")) {
             HttpSession session = request.getSession();
-            //session.removeAttribute("user_id");//속성제거
-            session.invalidate();//세션 제거
+            session.invalidate();  // 세션 제거
             response.sendRedirect("home.do");
         }
 

@@ -1,72 +1,59 @@
 package com.example.mini_05_marketmulti.review.model;
 
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewDAOimpl implements ReviewDAO {
 
-    //3-1 : 전역변수 설정
+    // 데이터베이스 연결 정보
     private static final String DRIVER_NAME = "oracle.jdbc.OracleDriver";
     private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
     private static final String USER = "HR";
     private static final String PASSWORD = "hi123456";
-    private Connection conn;//커넥션객체
-    private PreparedStatement pstmt;//쿼리(sql문-CRUD)실행객체
-    private ResultSet rs;//select문 리턴 객체
 
-    public ReviewDAOimpl(){
-        System.out.println("CommentsDAOimpl().....");
+    // 데이터베이스 관련 변수
+    private Connection conn;          // 데이터베이스 연결
+    private PreparedStatement pstmt;  // SQL 쿼리 실행
+    private ResultSet rs;             // SQL 쿼리 결과
 
+    // JDBC 드라이버 로드
+    public ReviewDAOimpl() {
+        System.out.println("ReviewDAOimpl().....");
         try {
             Class.forName(DRIVER_NAME);
-            System.out.println("Driver successed...");
+            System.out.println("Driver loaded successfully.");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("JDBC Driver not found.", e);
         }
-
     }
 
     @Override
     public int insert(ReviewVO vo) {
         System.out.println("insert()....");
-        System.out.println(vo);
         int flag = 0;
 
         try {
-            conn = DriverManager.getConnection(URL,USER,PASSWORD);
-            System.out.println("conn successed...");
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("Connection established.");
 
-            String sql = "insert into comments(review_id,product_id,content,writer) " +
-                    " values(seq_comments.nextval,?,?,?)";
+            String sql = "INSERT INTO REVIEW (NUM, CONTENT, WRITER, RDATE, PNUM, IMG, RATE) " +
+                    "VALUES (SEQ_REVIEW.NEXTVAL, ?, ?, SYSDATE, ?, ?, ?)";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,vo.getProductId());
-            pstmt.setString(2,vo.getContent());
-            pstmt.setString(3,vo.getWriter());
+            pstmt.setString(1, vo.getContent());
+            pstmt.setString(2, vo.getWriter());
+            pstmt.setInt(3, vo.getPnum());
+            pstmt.setString(4, vo.getImg());
+            pstmt.setInt(5, vo.getRate());
 
-            flag = pstmt.executeUpdate();//DML
-            System.out.println("flag:"+flag);
+            flag = pstmt.executeUpdate();
+            System.out.println("Insert status: " + flag);
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }finally {
-            if(pstmt!=null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if(conn!=null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }//finally
-
+            throw new RuntimeException("Error during insert operation.", e);
+        } finally {
+            closeResources();
+        }
 
         return flag;
     }
@@ -74,42 +61,27 @@ public class ReviewDAOimpl implements ReviewDAO {
     @Override
     public int update(ReviewVO vo) {
         System.out.println("update()....");
-        System.out.println(vo);
         int flag = 0;
 
         try {
-            conn = DriverManager.getConnection(URL,USER,PASSWORD);
-            System.out.println("conn successed...");
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("Connection established.");
 
-            String sql = "update comments set content=?,wdate=sysdate " +
-                    " where review_id=?";
+            String sql = "UPDATE REVIEW SET CONTENT = ?, RATE = ?, IMG = ? WHERE NUM = ?";
             pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, vo.getContent());
+            pstmt.setInt(2, vo.getRate());
+            pstmt.setString(3, vo.getImg());
+            pstmt.setInt(4, vo.getNum());
 
-            pstmt.setString(1,vo.getContent());
-            pstmt.setInt(2,vo.getReviewId());
-
-            flag = pstmt.executeUpdate();//DML
-            System.out.println("flag:"+flag);
+            flag = pstmt.executeUpdate();
+            System.out.println("Update status: " + flag);
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }finally {
-            if(pstmt!=null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if(conn!=null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }//finally
-
+            throw new RuntimeException("Error during update operation.", e);
+        } finally {
+            closeResources();
+        }
 
         return flag;
     }
@@ -117,41 +89,24 @@ public class ReviewDAOimpl implements ReviewDAO {
     @Override
     public int delete(ReviewVO vo) {
         System.out.println("delete()....");
-        System.out.println(vo);
         int flag = 0;
 
         try {
-            conn = DriverManager.getConnection(URL,USER,PASSWORD);
-            System.out.println("conn successed...");
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("Connection established.");
 
-            String sql = "delete from comments " +
-                    " where review_id=?";
+            String sql = "DELETE FROM REVIEW WHERE NUM = ?";
             pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, vo.getNum());
 
-            pstmt.setInt(1,vo.getReviewId());
-
-            flag = pstmt.executeUpdate();//DML
-            System.out.println("flag:"+flag);
+            flag = pstmt.executeUpdate();
+            System.out.println("Delete status: " + flag);
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }finally {
-            if(pstmt!=null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if(conn!=null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }//finally
-
+            throw new RuntimeException("Error during delete operation.", e);
+        } finally {
+            closeResources();
+        }
 
         return flag;
     }
@@ -159,172 +114,143 @@ public class ReviewDAOimpl implements ReviewDAO {
     @Override
     public ReviewVO selectOne(ReviewVO vo) {
         System.out.println("selectOne()....");
-        System.out.println(vo);
-        ReviewVO vo2 = null;
+        ReviewVO review = null;
 
         try {
-            conn = DriverManager.getConnection(URL,USER,PASSWORD);
-            System.out.println("conn successed...");
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("Connection established.");
 
-            String sql = "select * from comments where review_id=?";
+            String sql = "SELECT * FROM REVIEW WHERE NUM = ?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,vo.getReviewId());
+            pstmt.setInt(1, vo.getNum());
 
             rs = pstmt.executeQuery();
-            while(rs.next()){
-                vo2 = new ReviewVO();
-                vo2.setReviewId(rs.getInt("review_id"));
-                vo2.setProductId(rs.getInt("product_id"));
-                vo2.setContent(rs.getString("content"));
-                vo2.setWriter(rs.getString("writer"));
-                vo2.setWdate(new Timestamp(rs.getTimestamp("wdate").getTime()).toString());
+            if (rs.next()) {
+                review = new ReviewVO();
+                review.setNum(rs.getInt("NUM"));
+                review.setContent(rs.getString("CONTENT"));
+                review.setWriter(rs.getString("WRITER"));
+                review.setRdate(rs.getTimestamp("RDATE") != null ? rs.getTimestamp("RDATE").toString() : null);
+                review.setPnum(rs.getInt("PNUM"));
+                review.setImg(rs.getString("IMG"));
+                review.setRate(rs.getInt("RATE"));
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }finally {
-            if(rs!=null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if(pstmt!=null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if(conn!=null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }//finally
+            throw new RuntimeException("Error during selectOne operation.", e);
+        } finally {
+            closeResources();
+        }
 
-        return vo2;
+        return review;
     }
 
     @Override
-    public List<ReviewVO> selectAll(int product_id) {
-        System.out.println("selectAll()....product_id:"+product_id);
+    public List<ReviewVO> selectAll(int pnum) {
+        System.out.println("selectAll()....pnum:" + pnum);
         List<ReviewVO> list = new ArrayList<>();
 
-
         try {
-            conn = DriverManager.getConnection(URL,USER,PASSWORD);
-            System.out.println("conn successed...");
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("Connection established.");
 
-            String sql = "select * from comments where product_id=? " +
-                    " order by review_id desc";
+            String sql = "SELECT * FROM REVIEW WHERE PNUM = ? ORDER BY NUM DESC";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,product_id);
+            pstmt.setInt(1, pnum);
 
             rs = pstmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 ReviewVO vo = new ReviewVO();
-                vo.setReviewId(rs.getInt("review_id"));
-                vo.setProductId(rs.getInt("product_id"));
-                vo.setContent(rs.getString("content"));
-                vo.setWriter(rs.getString("writer"));
-                vo.setWdate(new Timestamp(rs.getTimestamp("wdate").getTime()).toString());
+                vo.setNum(rs.getInt("NUM"));
+                vo.setContent(rs.getString("CONTENT"));
+                vo.setWriter(rs.getString("WRITER"));
+                vo.setRdate(rs.getTimestamp("RDATE") != null ? rs.getTimestamp("RDATE").toString() : null);
+                vo.setPnum(rs.getInt("PNUM"));
+                vo.setImg(rs.getString("IMG"));
+                vo.setRate(rs.getInt("RATE"));
                 list.add(vo);
             }
-            System.out.println("list.size():"+list.size());
+
+            System.out.println("Number of reviews retrieved: " + list.size());
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }finally {
-            if(rs!=null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if(pstmt!=null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if(conn!=null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }//finally
+            throw new RuntimeException("Error during selectAll operation.", e);
+        } finally {
+            closeResources();
+        }
 
         return list;
     }
 
     @Override
-    public List<ReviewVO> searchList(String searchKey, String searchWord, int product_id) {
-        System.out.println("searchList()....product_id:"+product_id);
-        System.out.println("searchList()....searchKey:"+searchKey);
-        System.out.println("searchList()....searchWord:"+searchWord);
+    public List<ReviewVO> searchList(String searchKey, String searchWord, int pnum) {
+        System.out.println("searchList()....searchKey:" + searchKey);
+        System.out.println("searchList()....searchWord:" + searchWord);
         List<ReviewVO> list = new ArrayList<>();
 
         try {
-            conn = DriverManager.getConnection(URL,USER,PASSWORD);
-            System.out.println("conn successed...");
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("Connection established.");
 
-            String sql = "";
-            if(searchKey.equals("content")){
-                sql = "select * from comments where product_id=? and content like ? " +
-                        " order by review_id desc";
-            }else{
-                sql = "select * from comments where product_id=?  and writer like ? " +
-                        " order by review_id desc";
+            String sql;
+            if ("content".equals(searchKey)) {
+                sql = "SELECT * FROM REVIEW WHERE PNUM = ? AND CONTENT LIKE ? ORDER BY NUM DESC";
+            } else if ("writer".equals(searchKey)) {
+                sql = "SELECT * FROM REVIEW WHERE PNUM = ? AND WRITER LIKE ? ORDER BY NUM DESC";
+            } else {
+                throw new IllegalArgumentException("Invalid search key: " + searchKey);
             }
 
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,product_id);
-            pstmt.setString(2,"%"+searchWord+"%");
+            pstmt.setInt(1, pnum);
+            pstmt.setString(2, "%" + searchWord + "%");
 
             rs = pstmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 ReviewVO vo = new ReviewVO();
-                vo.setReviewId(rs.getInt("review_id"));
-                vo.setProductId(rs.getInt("product_id"));
-                vo.setContent(rs.getString("content"));
-                vo.setWriter(rs.getString("writer"));
-                vo.setWdate(new Timestamp(rs.getTimestamp("wdate").getTime()).toString());
+                vo.setNum(rs.getInt("NUM"));
+                vo.setContent(rs.getString("CONTENT"));
+                vo.setWriter(rs.getString("WRITER"));
+                vo.setRdate(rs.getTimestamp("RDATE") != null ? rs.getTimestamp("RDATE").toString() : null);
+                vo.setPnum(rs.getInt("PNUM"));
+                vo.setImg(rs.getString("IMG"));
+                vo.setRate(rs.getInt("RATE"));
                 list.add(vo);
             }
-            System.out.println("list.size():"+list.size());
+
+            System.out.println("Number of reviews found: " + list.size());
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }finally {
-            if(rs!=null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if(pstmt!=null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if(conn!=null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }//finally
+            throw new RuntimeException("Error during searchList operation.", e);
+        } finally {
+            closeResources();
+        }
 
         return list;
+    }
+
+    // 자원 해제
+    private void closeResources() {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                throw new RuntimeException("Failed to close ResultSet.", e);
+            }
+        }
+        if (pstmt != null) {
+            try {
+                pstmt.close();
+            } catch (SQLException e) {
+                throw new RuntimeException("Failed to close PreparedStatement.", e);
+            }
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException("Failed to close Connection.", e);
+            }
+        }
     }
 }

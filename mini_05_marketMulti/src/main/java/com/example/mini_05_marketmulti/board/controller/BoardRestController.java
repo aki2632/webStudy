@@ -3,9 +3,7 @@ package com.example.mini_05_marketmulti.board.controller;
 import com.example.mini_05_marketmulti.board.model.BoardDAO;
 import com.example.mini_05_marketmulti.board.model.BoardDAOimpl;
 import com.example.mini_05_marketmulti.board.model.BoardVO;
-
 import com.google.gson.Gson;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,7 +25,7 @@ public class BoardRestController extends HttpServlet {
 
         String sPath = request.getServletPath();
         System.out.println("sPath:"+sPath);
-
+        
         if(sPath.equals("/json_b_selectAll.do")){
             List<BoardVO> list = dao.selectAll();
 
@@ -51,7 +49,7 @@ public class BoardRestController extends HttpServlet {
 
 
     public void doPost(HttpServletRequest request,
-                       HttpServletResponse response)
+                      HttpServletResponse response)
             throws IOException, ServletException {
         doGet(request,response);
     }

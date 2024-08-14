@@ -3,21 +3,21 @@ package com.example.mini_05_marketmulti.product.model;
 public class ProductVO {
 
     private int num;
-    private String pname;
-    private String model;
+    private String pname; // pname -> name으로 변경
+    private String content; // 새로운 필드 추가
     private int price;
-    private int count;
-    private String user_id;
+    private String company; // model -> company로 변경
+    private String img; // 새로운 필드 추가
 
     @Override
     public String toString() {
         return "ProductVO{" +
                 "num=" + num +
                 ", pname='" + pname + '\'' +
-                ", model='" + model + '\'' +
-                ", price=" + price +
-                ", count=" + count +
-                ", user_id='" + user_id + '\'' +
+                ", content='" + content + '\'' +
+                ", price=" + price + '\'' +
+                ", company='" + company + '\'' +
+                ", img='" + img + '\'' +
                 '}';
     }
 
@@ -37,12 +37,12 @@ public class ProductVO {
         this.pname = pname;
     }
 
-    public String getModel() {
-        return model;
+    public String getContent() {
+        return content;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public int getPrice() {
@@ -53,19 +53,19 @@ public class ProductVO {
         this.price = price;
     }
 
-    public int getCount() {
-        return count;
+    public String getCompany() {
+        return company;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getImg() {
+        return img;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setImg(String img) {
+        this.img = img;
     }
 }

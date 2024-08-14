@@ -3,11 +3,9 @@ package com.example.mini_05_marketmulti.board.controller;
 import com.example.mini_05_marketmulti.board.model.BoardDAO;
 import com.example.mini_05_marketmulti.board.model.BoardDAOimpl;
 import com.example.mini_05_marketmulti.board.model.BoardVO;
-
-import com.example.mini_05_marketmulti.review.model.ReviewDAO;
-import com.example.mini_05_marketmulti.review.model.ReviewDAOimpl;
-import com.example.mini_05_marketmulti.review.model.ReviewVO;
-
+import com.example.mini_05_marketmulti.comments.model.CommentsDAO;
+import com.example.mini_05_marketmulti.comments.model.CommentsDAOimpl;
+import com.example.mini_05_marketmulti.comments.model.CommentsVO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,13 +18,13 @@ import java.util.List;
 
 @WebServlet({"/b_insert.do","/b_update.do","/b_delete.do","/b_selectOne.do",
         "/b_selectAll.do","/b_searchList.do","/b_insertOK.do","/b_updateOK.do",
-        "/b_deleteOK.do","/ajax_b_selectAll.do","/ajax_b_selectOne.do"})
+"/b_deleteOK.do"})
 public class BoardController extends HttpServlet {
-
-
+    
+    
     //BoardDAO,BoardDAOimpl 생성하시고 각매소드들을 해당분기문에서 호출해서 로그출력하세요
     BoardDAO dao = new BoardDAOimpl();
-    ReviewDAO rdao = new ReviewDAOimpl();
+    CommentsDAO cdao = new CommentsDAOimpl();
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response)
@@ -69,15 +67,10 @@ public class BoardController extends HttpServlet {
             request.setAttribute("vo2",vo2);
 
 
-            List<ReviewVO> clist = rdao.selectAll(num);
+            List<CommentsVO> clist = cdao.selectAll(num);
             request.setAttribute("clist",clist);
 
             RequestDispatcher rd = request.getRequestDispatcher("board/selectOne.jsp");
-            rd.forward(request,response);
-
-        }else if(sPath.equals("/ajax_b_selectOne.do")){
-
-            RequestDispatcher rd = request.getRequestDispatcher("board/ajax_selectOne.jsp");
             rd.forward(request,response);
 
         }else if(sPath.equals("/b_selectAll.do")){
@@ -88,9 +81,6 @@ public class BoardController extends HttpServlet {
             request.setAttribute("list",list);
 
             RequestDispatcher rd = request.getRequestDispatcher("board/selectAll.jsp");
-            rd.forward(request,response);
-        }else if(sPath.equals("/ajax_b_selectAll.do")){
-            RequestDispatcher rd = request.getRequestDispatcher("board/ajax_selectAll.jsp");
             rd.forward(request,response);
         }else if(sPath.equals("/b_searchList.do")){
             String searchKey = request.getParameter("searchKey");
@@ -174,7 +164,7 @@ public class BoardController extends HttpServlet {
     }//end doGet.....
 
     public void doPost(HttpServletRequest request,
-                       HttpServletResponse response)
+                      HttpServletResponse response)
             throws IOException, ServletException {
         doGet(request,response);
 

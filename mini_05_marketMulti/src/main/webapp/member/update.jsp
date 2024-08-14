@@ -89,6 +89,10 @@
         <td><label for="tel">TEL</label></td>
         <td><input type="text" id="tel" name="tel" value="${vo2.tel}" placeholder="TEL를 입력하세요"></td>
       </tr>
+      <tr>
+        <td><label for="address">ADDRESS</label></td>
+        <td><input type="text" id="address" name="address" value="${vo2.address}" placeholder="ADDRESS를 입력하세요"></td>
+      </tr>
       <td colspan="2"><input type="submit" value="수정완료"></td>
       </tr>
     </table>

@@ -33,15 +33,44 @@ public class ProductDAOimpl implements ProductDAO {
         System.out.println(vo);
 
         int flag = 0;
-        if (list.size() == 0) {
-            vo.setNum(1);
-        } else {
-            vo.setNum(list.get(list.size() - 1).getNum() + 1);
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("conn successed...");
+
+            String sql = "insert into product(num, pname, content, price, company, img) " +
+                    "values(seq_product.nextval, ?, ?, ?, ?, ?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, vo.getPname());
+            pstmt.setString(2, vo.getContent());
+            pstmt.setInt(3, vo.getPrice());
+            pstmt.setString(4, vo.getCompany());
+            pstmt.setString(5, vo.getImg());
+
+            flag = pstmt.executeUpdate(); // DML
+            System.out.println("flag : " + flag);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
-        list.add(vo);
-        flag = 1;
+
         return flag;
     }
+
+
 
 
     @Override
@@ -50,29 +79,84 @@ public class ProductDAOimpl implements ProductDAO {
         System.out.println(vo);
 
         int flag = 0;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getNum() == vo.getNum()) {
-                list.set(i, vo);
-                flag = 1;
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("conn successed...");
+
+            String sql = "update product set pname=?, content=?, price=?, company=?, img=? " +
+                    "where num=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, vo.getPname());
+            pstmt.setString(2, vo.getContent());
+            pstmt.setInt(3, vo.getPrice());
+            pstmt.setString(4, vo.getCompany());
+            pstmt.setString(5, vo.getImg());
+            pstmt.setInt(6, vo.getNum());
+
+            flag = pstmt.executeUpdate(); // DML
+            System.out.println("flag : " + flag);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
+
         return flag;
     }
+
 
 
     @Override
     public int delete(ProductVO vo) {
         System.out.println("delete()...");
         System.out.println(vo);
+
         int flag = 0;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getNum() == vo.getNum()) {
-                list.remove(i);
-                flag = 1;
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("conn successed...");
+
+            String sql = "delete from product where num=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, vo.getNum());
+
+            flag = pstmt.executeUpdate(); // DML
+            System.out.println("flag : " + flag);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
+
         return flag;
     }
+
 
     @Override
     public ProductVO selectOne(ProductVO vo) {
@@ -80,33 +164,54 @@ public class ProductDAOimpl implements ProductDAO {
         System.out.println(vo);
 
         ProductVO vo2 = null;
-        //3-2 : 커넥션
         try {
-            conn = DriverManager.getConnection(URL,USER,PASSWORD);
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("conn successed...");
 
-            String sql = "select * from product where product_id=?";
+            String sql = "select * from product where num=?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,vo.getNum());
+            pstmt.setInt(1, vo.getNum());
 
             rs = pstmt.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 vo2 = new ProductVO();
-                vo2.setNum(rs.getInt("product_id"));
+                vo2.setNum(rs.getInt("num"));
                 vo2.setPname(rs.getString("pname"));
-                vo2.setModel(rs.getString("model"));
+                vo2.setContent(rs.getString("content"));
                 vo2.setPrice(rs.getInt("price"));
-                vo2.setCount(rs.getInt("count"));
-                vo2.setUser_id(rs.getString("user_id"));
+                vo2.setCompany(rs.getString("company"));
+                vo2.setImg(rs.getString("img"));
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         return vo2;
     }
+
 
 
     @Override
@@ -116,31 +221,53 @@ public class ProductDAOimpl implements ProductDAO {
         List<ProductVO> list = new ArrayList<>();
 
         try {
-            conn = DriverManager.getConnection(URL,USER,PASSWORD);
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("conn successed...");
 
-            String sql = "select * from product order by product_id desc";
+            String sql = "select * from product order by num desc";
             pstmt = conn.prepareStatement(sql);
 
-            rs = pstmt.executeQuery();//DQL-select
+            rs = pstmt.executeQuery(); // DQL-select
 
-            while(rs.next()){
+            while (rs.next()) {
                 ProductVO vo = new ProductVO();
-                vo.setNum(rs.getInt("product_id"));
+                vo.setNum(rs.getInt("num"));
                 vo.setPname(rs.getString("pname"));
-                vo.setModel(rs.getString("model"));
+                vo.setContent(rs.getString("content"));
                 vo.setPrice(rs.getInt("price"));
-                vo.setCount(rs.getInt("count"));
-                vo.setUser_id(rs.getString("user_id"));
+                vo.setCompany(rs.getString("company"));
+                vo.setImg(rs.getString("img"));
                 list.add(vo);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         return list;
     }
+
 
 
     @Override
@@ -148,43 +275,62 @@ public class ProductDAOimpl implements ProductDAO {
         System.out.println("searchList()...");
         System.out.println(searchKey);
         System.out.println(searchWord);
-        List<ProductVO> vos = new ArrayList<>();
 
+        List<ProductVO> vos = new ArrayList<>();
         try {
-            conn = DriverManager.getConnection(URL,USER,PASSWORD);
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("conn successed...");
 
             String sql = "";
-
             if (searchKey.equals("pname")) {
-                sql = "select * from product where pname like ? order by product_id desc";
-            }
-            else if(searchKey.equals("model")) {
-                sql = "select * from product where model like ? order by product_id desc";
+                sql = "select * from product where pname like ? order by num desc";
+            } else if (searchKey.equals("company")) {
+                sql = "select * from product where company like ? order by num desc";
             }
 
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,"%"+searchWord+"%");
+            pstmt.setString(1, "%" + searchWord + "%");
 
-            rs = pstmt.executeQuery();//DQL-select
+            rs = pstmt.executeQuery(); // DQL-select
 
-            while(rs.next()){
+            while (rs.next()) {
                 ProductVO vo = new ProductVO();
-                vo.setNum(rs.getInt("product_id"));
+                vo.setNum(rs.getInt("num"));
                 vo.setPname(rs.getString("pname"));
-                vo.setModel(rs.getString("model"));
+                vo.setContent(rs.getString("content"));
                 vo.setPrice(rs.getInt("price"));
-                vo.setCount(rs.getInt("count"));
-                vo.setUser_id(rs.getString("user_id"));
+                vo.setCompany(rs.getString("company"));
+                vo.setImg(rs.getString("img"));
                 vos.add(vo);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
-
 
         return vos;
     }
+
 }
 

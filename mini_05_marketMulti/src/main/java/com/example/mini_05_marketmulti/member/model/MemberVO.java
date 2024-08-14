@@ -1,39 +1,39 @@
 package com.example.mini_05_marketmulti.member.model;
 
 public class MemberVO {
-    private int member_num;
-    private String member_id;
+    private int num;
+    private String id;
     private String pw;
     private String name;
     private String tel;
-    private String address;
+    private String address; // 새로운 필드 추가
 
     @Override
     public String toString() {
         return "MemberVO{" +
-                "member_num=" + member_num +
-                ", member_id='" + member_id + '\'' +
+                "num=" + num +
+                ", id='" + id + '\'' +
                 ", pw='" + pw + '\'' +
                 ", name='" + name + '\'' +
                 ", tel='" + tel + '\'' +
-                ", address='" + address + '\'' +
+                ", address='" + address + '\'' + // toString에 address 추가
                 '}';
     }
 
-    public int getMemberNum() {
-        return member_num;
+    public int getNum() {
+        return num;
     }
 
-    public void setMemberNum(int member_num) {
-        this.member_num = member_num;
+    public void setNum(int num) {
+        this.num = num;
     }
 
-    public String getMemberId() {
-        return member_id;
+    public String getId() {
+        return id;
     }
 
-    public void setMemberId(String member_id) {
-        this.member_id = member_id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getPw() {

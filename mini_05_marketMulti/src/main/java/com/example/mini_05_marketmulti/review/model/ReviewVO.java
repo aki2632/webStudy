@@ -2,30 +2,33 @@ package com.example.mini_05_marketmulti.review.model;
 
 public class ReviewVO {
 
-    //review_id(PK),content,writer,wdate,product_id(FK)
-    private int review_id;
+    private int num;
     private String content;
     private String writer;
-    private String wdate;
-    private int product_id;
+    private String rdate; // TIMESTAMP를 문자열로 저장
+    private int pnum;
+    private String img; // 추가된 필드
+    private int rate; // 추가된 필드
 
     @Override
     public String toString() {
-        return "CommentsVO{" +
-                "review_id=" + review_id +
+        return "ReviewVO{" +
+                "num=" + num +
                 ", content='" + content + '\'' +
                 ", writer='" + writer + '\'' +
-                ", wdate='" + wdate + '\'' +
-                ", product_id=" + product_id +
+                ", rdate='" + rdate + '\'' +
+                ", pnum=" + pnum +
+                ", img='" + img + '\'' +
+                ", rate=" + rate +
                 '}';
     }
 
-    public int getReviewId() {
-        return review_id;
+    public int getNum() {
+        return num;
     }
 
-    public void setReviewId(int review_id) {
-        this.review_id = review_id;
+    public void setNum(int num) {
+        this.num = num;
     }
 
     public String getContent() {
@@ -44,19 +47,36 @@ public class ReviewVO {
         this.writer = writer;
     }
 
-    public String getWdate() {
-        return wdate;
+    public String getRdate() {
+        return rdate;
     }
 
-    public void setWdate(String wdate) {
-        this.wdate = wdate;
+    public void setRdate(String rdate) {
+        this.rdate = rdate;
     }
 
-    public int getProductId() {
-        return product_id;
+    public int getPnum() {
+        return pnum;
     }
 
-    public void setProductId(int product_id) {
-        this.product_id = product_id;
+    public void setPnum(int pnum) {
+        this.pnum = pnum;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
     }
 }
+

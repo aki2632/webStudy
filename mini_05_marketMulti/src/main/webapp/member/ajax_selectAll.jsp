@@ -9,7 +9,7 @@
     $(function(){
       console.log("ready....");
 
-      let url2 = "http://localhost:8090/web07total_war_exploded/json_m_selectAll.do";
+      let url2 = "http://localhost:8090/mini_05_marketMulti_war_exploded/json_m_selectAll.do";
       $.ajax({
         url:url2,
         type:"get",
@@ -26,6 +26,7 @@
                       <td>\${response[i].pw}</td>
                       <td>\${response[i].name}</td>
                       <td>\${response[i].tel}</td>
+                      <td>\${response[i].address}</td>
                   </tr>`;
           }
 
@@ -61,6 +62,7 @@
     <th>PW</th>
     <th>NAME</th>
     <th>TEL</th>
+    <th>ADDRESS</th>
   </tr>
   </thead>
   <tbody id="result">

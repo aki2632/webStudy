@@ -16,6 +16,7 @@
     <th>PW</th>
     <th>NAME</th>
     <th>TEL</th>
+    <th>ADDRESS</th>
   </tr>
   </thead>
   <tbody>
@@ -25,6 +26,7 @@
     <td>${vo2.pw}</td>
     <td>${vo2.name}</td>
     <td>${vo2.tel}</td>
+    <td>${vo2.address}</td>
   </tr>
   </tbody>
 </table>

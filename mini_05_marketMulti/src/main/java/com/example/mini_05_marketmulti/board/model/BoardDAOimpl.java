@@ -11,7 +11,7 @@ public class BoardDAOimpl implements BoardDAO {
     //3-1 : 전역변수 설정
     private static final String DRIVER_NAME = "oracle.jdbc.OracleDriver";
     private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
-    private static final String USER = "HR";
+    private static final String USER = "JAVA";
     private static final String PASSWORD = "hi123456";
     private Connection conn;//커넥션객체
     private PreparedStatement pstmt;//쿼리(sql문-CRUD)실행객체
@@ -47,7 +47,7 @@ public class BoardDAOimpl implements BoardDAO {
             conn = DriverManager.getConnection(URL,USER,PASSWORD);
             System.out.println("conn successed...");
 
-            String sql = "insert into board(board_id,title,content,writer) " +
+            String sql = "insert into board(num,title,content,writer) " +
                     "values(seq_board.nextval,?,?,?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1,vo.getTitle());
@@ -91,7 +91,7 @@ public class BoardDAOimpl implements BoardDAO {
             System.out.println("conn successed...");
 
             String sql = "update board set title=?,content=?,writer=?,wdate=sysdate " +
-                    " where board_id=?";
+                    " where num=?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1,vo.getTitle());
             pstmt.setString(2,vo.getContent());
@@ -135,7 +135,7 @@ public class BoardDAOimpl implements BoardDAO {
             System.out.println("conn successed...");
 
             String sql = "delete from board " +
-                    " where board_id=?";
+                    " where num=?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,vo.getNum());
 
@@ -172,13 +172,13 @@ public class BoardDAOimpl implements BoardDAO {
             conn = DriverManager.getConnection(URL,USER,PASSWORD);
             System.out.println("conn successed...");
 
-            String sql = "select * from board where board_id=?";
+            String sql = "select * from board where num=?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,vo.getNum());
             rs = pstmt.executeQuery();
             while(rs.next()){
                 vo2 = new BoardVO();
-                vo2.setNum(rs.getInt("board_id"));
+                vo2.setNum(rs.getInt("num"));
                 vo2.setTitle(rs.getString("title"));
                 vo2.setContent(rs.getString("content"));
                 vo2.setWriter(rs.getString("writer"));
@@ -225,12 +225,12 @@ public class BoardDAOimpl implements BoardDAO {
             conn = DriverManager.getConnection(URL,USER,PASSWORD);
             System.out.println("conn successed...");
 
-            String sql = "select * from board order by board_id desc";
+            String sql = "select * from board order by num desc";
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
             while(rs.next()){
                 BoardVO vo = new BoardVO();
-                vo.setNum(rs.getInt("board_id"));
+                vo.setNum(rs.getInt("num"));
                 vo.setTitle(rs.getString("title"));
                 vo.setContent(rs.getString("content"));
                 vo.setWriter(rs.getString("writer"));
@@ -282,9 +282,9 @@ public class BoardDAOimpl implements BoardDAO {
 
             String sql = "";
             if(searchKey.equals("title")){
-                sql = "select * from board where title like ? order by board_id desc";
+                sql = "select * from board where title like ? order by num desc";
             }else if(searchKey.equals("content")){
-                sql = "select * from board where content like ? order by board_id desc";
+                sql = "select * from board where content like ? order by num desc";
             }
 
             pstmt = conn.prepareStatement(sql);
@@ -294,7 +294,7 @@ public class BoardDAOimpl implements BoardDAO {
             rs = pstmt.executeQuery();
             while(rs.next()){
                 BoardVO vo = new BoardVO();
-                vo.setNum(rs.getInt("board_id"));
+                vo.setNum(rs.getInt("num"));
                 vo.setTitle(rs.getString("title"));
                 vo.setContent(rs.getString("content"));
                 vo.setWriter(rs.getString("writer"));

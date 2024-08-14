@@ -12,50 +12,55 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet({"/r_insertOK.do","/r_deleteOK.do"})
+@WebServlet({"/r_insertOK.do", "/r_deleteOK.do"})
 public class ReviewController extends HttpServlet {
 
     ReviewDAO rdao = new ReviewDAOimpl();
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
         String sPath = request.getServletPath();
+        System.out.println("sPath:" + sPath);
 
-        System.out.println("sPath:"+sPath);
-
-        if(sPath.equals("/r_insertOK.do")){
+        if (sPath.equals("/r_insertOK.do")) {
             String content = request.getParameter("content");
             String writer = request.getParameter("writer");
-            String bnum = request.getParameter("bnum");
+            String pnum = request.getParameter("pnum");
+            String img = request.getParameter("img"); // 추가된 필드
+            String rate = request.getParameter("rate"); // 추가된 필드
+
             System.out.println(content);
             System.out.println(writer);
-            System.out.println(bnum);
+            System.out.println(pnum);
+            System.out.println(img); // 추가된 필드
+            System.out.println(rate); // 추가된 필드
 
             ReviewVO vo = new ReviewVO();
             vo.setContent(content);
             vo.setWriter(writer);
-            vo.setProductId(Integer.parseInt(bnum));
+            vo.setPnum(Integer.parseInt(pnum));
+            vo.setImg(img); // 추가된 필드
+            vo.setRate(Integer.parseInt(rate)); // 추가된 필드
 
             int result = rdao.insert(vo);
-            System.out.println("result:"+result);
-            response.sendRedirect("b_selectOne.do?num="+bnum);
-        }else if(sPath.equals("/r_deleteOK.do")){
+            System.out.println("result:" + result);
+            response.sendRedirect("p_selectOne.do?num=" + pnum);
+        } else if (sPath.equals("/r_deleteOK.do")) {
             String num = request.getParameter("num");
-            String bnum = request.getParameter("bnum");
+            String pnum = request.getParameter("pnum");
             System.out.println(num);
-            System.out.println(bnum);
+            System.out.println(pnum);
 
             ReviewVO vo = new ReviewVO();
-            vo.setReviewId(Integer.parseInt(num));
+            vo.setNum(Integer.parseInt(num));
 
             int result = rdao.delete(vo);
-            System.out.println("result:"+result);
-            response.sendRedirect("b_selectOne.do?num="+bnum);
+            System.out.println("result:" + result);
+            response.sendRedirect("p_selectOne.do?num=" + pnum);
         }
-
-    }//end doGet()....
-
+    }
     public void destroy() {
     }
 }

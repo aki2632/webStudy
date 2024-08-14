@@ -8,7 +8,7 @@
     $(function(){
       console.log("ready....");
 
-      let url2 = "http://localhost:8090/web07total_war_exploded/json_b_selectAll.do";
+      let url2 = "http://localhost:8090/mini_05_marketMulti_war_exploded/json_b_selectAll.do";
       $.ajax({
         url:url2,
         type:"get",

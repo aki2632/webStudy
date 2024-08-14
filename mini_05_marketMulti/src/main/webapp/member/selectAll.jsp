@@ -25,6 +25,7 @@
     <th>PW</th>
     <th>NAME</th>
     <th>TEL</th>
+    <th>ADDRESS</th>
   </tr>
   </thead>
   <tbody>

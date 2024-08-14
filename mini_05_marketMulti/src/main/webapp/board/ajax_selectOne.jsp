@@ -11,7 +11,7 @@
 
       console.log(${param.num});
 
-      let url2 = "http://localhost:8090/web07total_war_exploded/json_b_selectOne.do";
+      let url2 = "http://localhost:8090/mini_05_marketMulti_war_exploded/json_b_selectOne.do";
       $.ajax({
         url:url2,
         type:"get",

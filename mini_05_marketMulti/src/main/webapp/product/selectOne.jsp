@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>상품 상세 페이지</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 <h1>상품 상세 페이지</h1>
@@ -32,29 +33,45 @@ ${mnum}
     </tr>
     </tbody>
 </table>
+<c:if test="${user_id != null}">
+    <!-- 카트에 담기 버튼 -->
+    <form action="p_selectOne.do" method="get">
+        <input type="hidden" name="num" value="${vo2.num}">
+        <input type="hidden" name="mnum" value="${sessionScope.mnum}"> <!-- 세션에서 로그인된 사용자 번호 가져오기 -->
+        <input type="hidden" name="action" value="addToCart"> <!-- 카트 추가 액션 -->
+        <input type="submit" value="카트에 담기">
+    </form>
 
-<!-- 카트에 담기 버튼 -->
-<form action="cart_insertOK.do" method="get">
-    <input type="hidden" name="pnum" value="${vo2.num}">
-    <input type="hidden" name="mnum" value="${sessionScope.mnum}"> <!-- 세션에서 로그인된 사용자 번호 가져오기 -->
-    <input type="hidden" name="amountCount" value="1"> <!-- 기본값 설정, 필요에 따라 수정 -->
-    <input type="hidden" name="priceCount" value="${vo2.price}"> <!-- 상품 가격, 필요에 따라 수정 -->
-    <input type="submit" value="카트에 담기">
-</form>
+    <!-- 위시리스트에 담기 버튼 -->
+    <form action="p_selectOne.do" method="get">
+        <input type="hidden" name="num" value="${vo2.num}">
+        <input type="hidden" name="mnum" value="${sessionScope.mnum}"> <!-- 세션에서 로그인된 사용자 번호 가져오기 -->
+        <input type="hidden" name="action" value="addToWish"> <!-- 위시리스트 추가 액션 -->
+        <input type="submit" value="위시리스트에 담기">
+    </form>
+</c:if>
 
-<a href="p_update.do?num=${vo2.num}">상품수정</a>
-<a href="p_delete.do?num=${vo2.num}">상품삭제</a>
+<!-- 상품수정 및 삭제 버튼 -->
+<c:if test="${user_id == 'admin'}">
+    <a href="p_update.do?num=${vo2.num}">상품수정</a>
+    <a href="p_delete.do?num=${vo2.num}">상품삭제</a>
+</c:if>
 <hr>
-<form action="r_insertOK.do" method="get">
-    <input type="hidden" id="pnum" name="pnum" value="${vo2.num}">
-    <input type="text" id="content" name="content" value="review1">
-    <input type="hidden" id="writer" name="writer" value="${sessionScope.user_id}"> <!-- 세션에서 사용자 ID 가져오기 -->
-    <input type="text" id="img" name="img" value="default.jpg"> <!-- 이미지 URL 입력 -->
-    <input type="number" id="rate" name="rate" min="1" max="5" value="5"> <!-- 평점 입력 -->
-    <input type="submit" value="리뷰 입력">
-</form>
+
+<!-- 리뷰 입력 폼 -->
+<c:if test="${user_id != null}">
+    <form action="r_insertOK.do" method="get">
+        <input type="hidden" id="pnum" name="pnum" value="${vo2.num}">
+        <input type="text" id="content" name="content" value="review1">
+        <input type="hidden" id="writer" name="writer" value="${sessionScope.user_id}"> <!-- 세션에서 사용자 ID 가져오기 -->
+        <input type="text" id="img" name="img" value="default.jpg"> <!-- 이미지 URL 입력 -->
+        <input type="number" id="rate" name="rate" min="1" max="5" value="5"> <!-- 평점 입력 -->
+        <input type="submit" value="리뷰 입력">
+    </form>
+</c:if>
 <hr>
 
+<!-- 리뷰 목록 표시 -->
 <table border="1">
     <c:forEach var="rvo" items="${rlist}">
         <tr>

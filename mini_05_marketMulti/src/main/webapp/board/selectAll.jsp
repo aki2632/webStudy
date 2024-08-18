@@ -4,9 +4,10 @@
 <html>
 <head>
   <title>JSP - Hello World</title>
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
-<h1><%= "게시글 목록 페이지" %></h1>
+<h1><%= "공지사항 목록 페이지" %></h1>
 <br/>
 <jsp:include page="../top_menu.jsp"/>
 <form action="b_searchList.do">

@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>결제 화면</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 <h1>결제 화면</h1>

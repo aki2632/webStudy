@@ -1,5 +1,7 @@
 package com.example.mini_05_marketmulti.wish.model;
 
+import com.example.mini_05_marketmulti.cart.model.CartVO;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,29 @@ public class WishDAOimpl implements WishDAO {
             closeResources();
         }
         return flag;
+    }
+
+    @Override
+    public WishVO selectOne(WishVO vo) {
+        WishVO result = null;
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            String sql = "select * from wish where num=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, vo.getNum());
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                result = new WishVO();
+                result.setNum(rs.getInt("num"));
+                result.setPnum(rs.getInt("pnum"));
+                result.setMnum(rs.getInt("mnum"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeResources();
+        }
+        return result;
     }
 
     @Override

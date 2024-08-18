@@ -4,9 +4,10 @@
 <html>
 <head>
   <title>JSP - Hello World</title>
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
-<h1><%= "게시글 상세 페이지" %></h1>
+<h1><%= "공지사항 상세 페이지" %></h1>
 <br/>
 <jsp:include page="../top_menu.jsp"/>
 <table border="1">
@@ -29,16 +30,20 @@
   </tr>
   </tbody>
 </table>
-<a href="b_update.do?num=${vo2.num}">게시글수정</a>
-<a href="b_delete.do?num=${vo2.num}">게시글삭제</a>
+<c:if test="${user_id == 'admin'}">
+  <a href="b_update.do?num=${vo2.num}">공지사항 수정</a>
+  <a href="b_delete.do?num=${vo2.num}">공지사항 삭제</a>
+</c:if>
 <hr>
-<form action="c_insertOK.do">
-  <input type="hidden" id="bnum" name="bnum" value="${vo2.num}">
-  <input type="text" id="content" name="content" value="comment1">
-  ${user_id}
-  <input type="hidden" id="writer" name="writer" value="${user_id}">
-  <input type="submit" value="댓글입력">
-</form>
+<c:if test="${user_id == 'admin'}">
+  <form action="c_insertOK.do">
+    <input type="hidden" id="bnum" name="bnum" value="${vo2.num}">
+    <input type="text" id="content" name="content" value="comment1">
+      ${user_id}
+    <input type="hidden" id="writer" name="writer" value="${user_id}">
+    <input type="submit" value="댓글입력">
+  </form>
+</c:if>
 <hr>
 
 <table border="1">

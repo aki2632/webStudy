@@ -3,7 +3,7 @@
 <html>
 <head>
   <title>JSP - Hello World</title>
-
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script>
     $(function(){

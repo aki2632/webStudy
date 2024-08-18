@@ -10,6 +10,9 @@ import com.example.mini_05_marketmulti.review.model.ReviewVO;
 import com.example.mini_05_marketmulti.cart.model.CartVO; // CartVO 클래스 import
 import com.example.mini_05_marketmulti.cart.model.CartDAO; // CartDAO 인터페이스 import
 import com.example.mini_05_marketmulti.cart.model.CartDAOimpl; // CartDAOimpl 클래스 import
+import com.example.mini_05_marketmulti.wish.model.WishDAO;
+import com.example.mini_05_marketmulti.wish.model.WishDAOimpl;
+import com.example.mini_05_marketmulti.wish.model.WishVO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -70,12 +73,11 @@ public class ProductController extends HttpServlet {
             request.setAttribute("vo2", vo2);
 
             List<ReviewVO> rlist = rdao.selectAll(num);
-            request.setAttribute("rlist",rlist);
+            request.setAttribute("rlist", rlist);
 
             // "카트에 담기" 버튼 클릭 시 카트에 상품을 추가하는 로직
             String action = request.getParameter("action");
             if ("addToCart".equals(action)) {
-                // 사용자 정보와 상품 정보를 이용해 카트에 추가
                 int mnum = Integer.parseInt(request.getParameter("mnum"));
                 int amountCount = 1;  // 기본 수량 1로 설정
                 int priceCount = vo2.getPrice();  // 상품 가격
@@ -91,6 +93,22 @@ public class ProductController extends HttpServlet {
 
                 // 카트 목록 페이지로 리다이렉트
                 response.sendRedirect("cart_selectAll.do");
+                return;
+            }
+
+            // "위시리스트에 담기" 버튼 클릭 시 위시리스트에 상품을 추가하는 로직
+            if ("addToWish".equals(action)) {
+                int mnum = Integer.parseInt(request.getParameter("mnum"));
+
+                WishVO wishVo = new WishVO();
+                wishVo.setPnum(vo2.getNum());
+                wishVo.setMnum(mnum);
+
+                WishDAO wishDao = new WishDAOimpl();
+                wishDao.insert(wishVo);
+
+                // 위시리스트 목록 페이지로 리다이렉트
+                response.sendRedirect("wish_selectAll.do");
                 return;
             }
 

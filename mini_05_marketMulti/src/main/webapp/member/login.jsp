@@ -3,12 +3,12 @@
 <html>
 <head>
   <title>JSP - Hello World</title>
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 <h1><%= "Hello World!" %></h1>
 <br/>
-<a href="home.do">HOME</a>
-<a href="login.do">login</a>
+<jsp:include page="../top_menu.jsp"/>
 <form action="loginOK.do" method="post">
   ID:<input type="text" name="id" value="admin"><br>
   PW<input type="password" name="pw" value="hi1111"><br>

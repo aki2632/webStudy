@@ -3,59 +3,7 @@
 <html>
 <head>
   <title>상품 수정 페이지</title>
-  <style>
-    input[type=text],
-    textarea,
-    select {
-      width: 100%;
-      padding: 8px 8px;
-      margin: 8px 0;
-      display: inline-block;
-      border: 1px solid #ff8f8f;
-      border-radius: 14px;
-      box-sizing: border-box;
-    }
-
-    input[type=submit] {
-      width: 30%;
-      background-color: #4CAF50;
-      color: white;
-      padding: 8px 8px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-    }
-
-    input[type=submit]:hover {
-      background-color: #b7e5b9;
-    }
-
-    div {
-      border-radius: 15px;
-      background-color: #f0f0f0;
-      padding: 20px;
-    }
-
-    #updateTable {
-      font-family: Arial, Helvetica, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    #updateTable td {
-      border: 1px solid #ddd;
-      padding: 8px;
-    }
-
-    #updateTable tr:nth-child(even) {
-      background-color: #ebebeb;
-    }
-
-    #updateTable tr:hover {
-      background-color: #ffc6c6;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 <h1><%= "상품 수정 페이지" %></h1>

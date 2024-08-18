@@ -3,6 +3,7 @@
 <html>
 <head>
   <title>JSP - Hello World</title>
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 <h1>회원 정보 페이지</h1>

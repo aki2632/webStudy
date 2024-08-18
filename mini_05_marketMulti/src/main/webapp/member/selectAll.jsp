@@ -4,6 +4,7 @@
 <html>
 <head>
   <title>JSP - Hello World</title>
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 <h1><%= "회원 목록 페이지" %></h1>
@@ -36,6 +37,7 @@
       <td>${vo.pw}</td>
       <td>${vo.name}</td>
       <td>${vo.tel}</td>
+      <td>${vo.address}</td>
     </tr>
   </c:forEach>
 

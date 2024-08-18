@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>상품 목록 페이지</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 <h1><%= "상품 목록 페이지" %>

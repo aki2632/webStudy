@@ -117,7 +117,7 @@ public class MemberController extends HttpServlet {
             int result = dao.insert(vo);
             if(result ==1 ){
                 System.out.println("insert successed...");
-                response.sendRedirect("m_selectAll.do");//서블릿패스
+                response.sendRedirect("home.do");//서블릿패스
             }else{
                 System.out.println("insert failed...");
                 response.sendRedirect("m_insert.do");//서블릿패스

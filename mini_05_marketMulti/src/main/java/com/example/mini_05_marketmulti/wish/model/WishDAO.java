@@ -5,5 +5,6 @@ import java.util.List;
 public interface WishDAO {
     public int insert(WishVO vo);
     public int delete(WishVO vo);
+    public WishVO selectOne(WishVO vo);
     public List<WishVO> selectAll();
 }

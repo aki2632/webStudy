@@ -7,16 +7,15 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
-<h1><%= "상품 목록 페이지" %>
-</h1>
+<h1>상품 목록 페이지</h1>
 <br/>
 <jsp:include page="../top_menu.jsp"/>
-<form action="p_searchList.do">
+<form action="p_searchList.do" method="get">
     <select name="searchKey">
-        <option value="pname">상품명</option>
-        <option value="company">회사</option>
+        <option value="pname" <c:if test="${param.searchKey == 'pname'}">selected</c:if>>상품명</option>
+        <option value="company" <c:if test="${param.searchKey == 'company'}">selected</c:if>>회사</option>
     </select>
-    <input type="text" name="searchWord" value="">
+    <input type="text" name="searchWord" value="${param.searchWord}">
     <input type="submit" value="검색">
 </form>
 <table border="1">
@@ -38,14 +37,17 @@
             <td>${vo.content}</td>
             <td>${vo.price}</td>
             <td>${vo.company}</td>
-            <td>${vo.img}</td>
+            <td><img src="${pageContext.request.contextPath}/${vo.img}" alt="상품 이미지" width="100"></td>
         </tr>
     </c:forEach>
-
     </tbody>
     <tfoot>
     <tr>
-        <td colspan="6">1 2 3 4</td>
+        <td colspan="6">
+            <c:forEach var="page" begin="1" end="${totalPages}">
+                <a href="p_searchList.do?page=${page}&searchKey=${param.searchKey}&searchWord=${param.searchWord}">${page}</a>
+            </c:forEach>
+        </td>
     </tr>
     </tfoot>
 </table>

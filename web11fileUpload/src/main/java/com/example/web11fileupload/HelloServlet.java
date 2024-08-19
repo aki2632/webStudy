@@ -15,12 +15,6 @@ import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
 
 @WebServlet({"/home.do","/fileUpload.do"})
 public class HelloServlet extends HttpServlet {
-    private String message;
-
-    public void init() {
-        message = "Hello World!";
-    }
-
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         String sPath = request.getServletPath();

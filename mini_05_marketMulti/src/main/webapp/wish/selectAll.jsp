@@ -46,8 +46,6 @@
         <p>로그인 후 위시리스트를 확인할 수 있습니다.</p>
     </c:otherwise>
 </c:choose>
-
-<a href="product_list.do">상품 목록으로 돌아가기</a>
 </body>
 </html>
 

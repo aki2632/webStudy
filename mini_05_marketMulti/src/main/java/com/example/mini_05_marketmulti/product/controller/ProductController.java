@@ -16,14 +16,13 @@ import com.example.mini_05_marketmulti.wish.model.WishVO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.util.List;
+import jakarta.servlet.annotation.MultipartConfig;
 
+@MultipartConfig
 @WebServlet({"/p_insert.do","/p_update.do","/p_delete.do",
         "/p_selectOne.do","/p_selectAll.do","/ajax_p_selectAll.do","/ajax_p_selectOne.do","/p_searchList.do",
         "/p_insertOK.do","/p_updateOK.do","/p_deleteOK.do"})
@@ -141,65 +140,89 @@ public class ProductController extends HttpServlet {
 
             RequestDispatcher rd = request.getRequestDispatcher("product/selectAll.jsp");
             rd.forward(request, response);
-        } else if (sPath.equals("/p_insertOK.do")) {
+        }else if (sPath.equals("/p_insertOK.do")) {
             String pname = request.getParameter("pname");
             String content = request.getParameter("content");
-            int price = Integer.parseInt(request.getParameter("price"));
+            String price = request.getParameter("price");
             String company = request.getParameter("company");
-            String img = request.getParameter("img");
+
             System.out.println(pname);
             System.out.println(content);
             System.out.println(price);
             System.out.println(company);
-            System.out.println(img);
+
+            // 이미지 파일 처리
+            Part filePart = request.getPart("img");
+            String imgPath = null;
+            if (filePart != null && filePart.getSize() > 0) {
+                String fileName = filePart.getSubmittedFileName();
+                String uploadPath = getServletContext().getRealPath("/") + "upload/";
+                java.io.File fileSaveDir = new java.io.File(uploadPath);
+                if (!fileSaveDir.exists()) {
+                    fileSaveDir.mkdir();
+                }
+                filePart.write(uploadPath + fileName);
+                imgPath = "upload/" + fileName;
+            }
 
             ProductVO vo = new ProductVO();
             vo.setPname(pname);
             vo.setContent(content);
-            vo.setPrice(price);
+            vo.setPrice(Integer.parseInt(price));
             vo.setCompany(company);
-            vo.setImg(img);
+            vo.setImg(imgPath);
 
             int result = dao.insert(vo);
             if (result == 1) {
-                System.out.println("insert successed...");
-                response.sendRedirect("p_selectAll.do"); // 서블릿 패스
+                System.out.println("insert succeeded...");
+                response.sendRedirect("p_selectAll.do");
             } else {
                 System.out.println("insert failed...");
-                response.sendRedirect("p_insert.do"); // 서블릿 패스
+                response.sendRedirect("p_insert.do");
             }
 
         } else if (sPath.equals("/p_updateOK.do")) {
             String num = request.getParameter("num");
             String pname = request.getParameter("pname");
             String content = request.getParameter("content");
-            int price = Integer.parseInt(request.getParameter("price"));
+            String price = request.getParameter("price");
             String company = request.getParameter("company");
-            String img = request.getParameter("img");
-            System.out.println(num);
+
             System.out.println(pname);
             System.out.println(content);
             System.out.println(price);
             System.out.println(company);
-            System.out.println(img);
+
+            // 이미지 파일 처리
+            Part filePart = request.getPart("img");
+            String imgPath = null;
+            if (filePart != null && filePart.getSize() > 0) {
+                String fileName = filePart.getSubmittedFileName();
+                String uploadPath = getServletContext().getRealPath("/") + "upload/";
+                java.io.File fileSaveDir = new java.io.File(uploadPath);
+                if (!fileSaveDir.exists()) {
+                    fileSaveDir.mkdir();
+                }
+                filePart.write(uploadPath + fileName);
+                imgPath = "upload/" + fileName;
+            }
 
             ProductVO vo = new ProductVO();
             vo.setNum(Integer.parseInt(num));
             vo.setPname(pname);
             vo.setContent(content);
-            vo.setPrice(price);
+            vo.setPrice(Integer.parseInt(price));
             vo.setCompany(company);
-            vo.setImg(img);
+            vo.setImg(imgPath);
 
             int result = dao.update(vo);
             if (result == 1) {
-                System.out.println("update successed...");
-                response.sendRedirect("p_selectOne.do?num=" + num); // 서블릿 패스
+                System.out.println("update succeeded...");
+                response.sendRedirect("p_selectOne.do?num=" + num);
             } else {
                 System.out.println("update failed...");
-                response.sendRedirect("p_update.do?num=" + num); // 서블릿 패스
+                response.sendRedirect("p_update.do?num=" + num);
             }
-
         } else if (sPath.equals("/p_deleteOK.do")) {
             String num = request.getParameter("num");
             System.out.println(num);

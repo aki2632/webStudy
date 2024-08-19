@@ -35,7 +35,7 @@
   <a href="b_delete.do?num=${vo2.num}">공지사항 삭제</a>
 </c:if>
 <hr>
-<c:if test="${user_id == 'admin'}">
+<c:if test="${user_id != null}">
   <form action="c_insertOK.do">
     <input type="hidden" id="bnum" name="bnum" value="${vo2.num}">
     <input type="text" id="content" name="content" value="comment1">

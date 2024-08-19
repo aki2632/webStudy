@@ -26,6 +26,7 @@
             </c:if>
             <c:if test="${user_id == null}">
                 <li><a href="login.do">login</a></li>
+                <li><a href="m_insert.do">회원가입</a></li>
             </c:if>
         </ul>
     </nav>

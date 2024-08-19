@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +10,7 @@
 <h1><%= "상품 수정 페이지" %></h1>
 <br/>
 <jsp:include page="../top_menu.jsp"/>
-<form action="p_updateOK.do" method="post">
+<form action="p_updateOK.do" method="post" enctype="multipart/form-data">
   <div>
     <table id="updateTable">
       <tr>
@@ -34,7 +35,7 @@
       </tr>
       <tr>
         <td><label for="img">이미지</label></td>
-        <td><input type="text" id="img" name="img" value="${param.img}" placeholder="이미지 URL을 입력하세요"></td>
+        <td><input type="file" id="img" name="img" accept="image/*" placeholder="이미지 파일을 업로드하세요"></td>
       </tr>
       <tr>
         <td colspan="2"><input type="submit" value="상품 수정 완료"></td>
@@ -44,4 +45,3 @@
 </form>
 </body>
 </html>
-
